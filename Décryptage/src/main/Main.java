@@ -6,13 +6,16 @@ import view.View;
 
 public abstract class Main {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 		final Model model = new Model();
 
-		final View view = new View(model);
 
-		final Controller controller = new Controller(view, model);
+		final Controller controller = new Controller(model);
+		
+		
+		final View view = new View(controller);
 
 		controller.start();
 

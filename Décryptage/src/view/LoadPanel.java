@@ -1,49 +1,36 @@
 package view;
 
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import model.Model;
+import controller.Controller;
+
 
 public class LoadPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private Model model;
 	private Image img;
-	
 	
 	public JTextField id; 
 	public JPasswordField password;
 	
 	public JButton authentify;
+	public Boolean maskPassword = true;
 	
 
 	/** This constructor create a button into the panel and load an image into it */
-	public LoadPanel(Model model) {
+	public LoadPanel(Controller controller) {
 
-		this.setModel(model);
-
-        //this.setLayout(new SpringLayout());
-		this.setLayout(new GridLayout(3, 2, 60, 30));
-        
-        JLabel loginLabel;
-        JTextField loginTextField;
-        
-        JLabel passwordLabel;
-        JPasswordField passwordPasswordField;
-        
-        JButton loginButton;
-        JButton passwordGet;
-        
+		
+		
+		// mise en forme
 		Border lineborder = BorderFactory.createLineBorder(Color.white, 2); 
 		
 		Font font = new Font("Courier New", Font.ITALIC, 20);
@@ -54,8 +41,28 @@ public class LoadPanel extends JPanel {
 			e.printStackTrace();
 		}
 		;
+		
+
+		this.setLayout(new GridLayout(3, 2, 60, 30));
+        
+		
+		// attributs
+        JLabel loginLabel;
+        JTextField loginTextField;
+        
+        JLabel passwordLabel;
+        JPasswordField passwordPasswordField;
+        
+        JButton loginButton;
+        JButton passwordGet;
+        
 
 
+
+		
+		
+		
+		// Propriétés attributs
 		loginLabel = new JLabel("User Name:", SwingConstants.CENTER);
 	    loginLabel.setBorder(lineborder);
 	    loginLabel.setForeground(Color.white);
@@ -90,22 +97,48 @@ public class LoadPanel extends JPanel {
         
         
         passwordGet = new JButton("Display Password");
-//        passwordGet.addActionListener(
-//                new ActionListener() {
-// 
-//                    public void actionPerformed(ActionEvent e) {
-//                        String password = new String(pfPassword.getPassword());
-//                        JOptionPane.showMessageDialog(frame,
-//                                "Password is " + password);
-//                    }
-//                });
+        
+        passwordGet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				 if (maskPassword == false) {
+	                	passwordPasswordField.setEchoChar('*');
+	                	maskPassword = true;
+	                } else {
+	                	passwordPasswordField.setEchoChar((char) 0);
+	                	maskPassword = false;
+	                }
+			}
+        });
         
         
-        
-
         loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (loginTextField.getText().compareTo("") == 0) {
+					JOptionPane.showMessageDialog(null,
+						    "Veuillez entrer un utilisateur",
+						    "Erreur",
+						    JOptionPane.ERROR_MESSAGE);
+	            } 
+				
+				else if (passwordPasswordField.getPassword().length == 0)  {
+					JOptionPane.showMessageDialog(null,
+						    "Veuillez entrer un mot de passe",
+						    "Erreur",
+						    JOptionPane.ERROR_MESSAGE);
+	            } 
+				
+				
+				else {
+					System.out.print("");
+					boolean contolCompteBool = controller.ControllerCompte.pcs_authentifier(loginTextField.getText(), String.valueOf(passwordPasswordField.getPassword()));
+					System.out.print(contolCompteBool);
+	            }
+			}
+       });
 
- 
         
         
         this.add(loginLabel);
@@ -115,21 +148,11 @@ public class LoadPanel extends JPanel {
         this.add(loginButton);
         this.add(passwordGet);
  
-       
-
 	}
 	
 	public void paintComponent(Graphics g) {
 
 		g.drawImage(this.img, 0, 0, this.getWidth(), this.getHeight(), this);
 
-	}
-
-	public Model getModel() {
-		return model;
-	}
-
-	public void setModel(Model model2) {
-		this.model = model2;
 	}
 }

@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import model.Model;
+import controller.Controller;
 
 public class Frame extends JFrame {
 
@@ -16,7 +16,8 @@ public class Frame extends JFrame {
 	 * This constructor set the size of the home window, his color and put a panel
 	 * into it
 	 */
-	public Frame(Model model) {
+	public Frame(Controller controller) {
+		
 
 		this.setTitle("Home");
 		this.setSize(600, 300);
@@ -25,7 +26,7 @@ public class Frame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBackground(Color.BLACK);
 
-		this.loadPanel = new LoadPanel(model);
+		this.loadPanel = new LoadPanel(controller);
 
 		this.setContentPane(this.loadPanel);
 		this.requestFocus();

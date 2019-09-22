@@ -1,16 +1,15 @@
 package view;
 
-
-import model.Model;
+import controller.Controller;
 
 public class View{
 
 	private Frame frame;
 	private int blocker= 0;
 
-	public View(Model model) {
+	public View(Controller controller) {
 
-		this.setFrame(new Frame(model));
+		this.setFrame(new Frame(controller));
 	}
 
 

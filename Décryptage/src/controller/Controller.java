@@ -2,31 +2,30 @@ package controller;
 
 
 import model.Model;
-import view.View;
 
 public class Controller {
 
-	private final View view;
-	private final Model model;
+	public final Model model;
+	public ControllerCompte ControllerCompte;
 
-	public Controller(final View view, final Model model) {
-		this.view = view;
+	public Controller(final Model model) {
+		
 		this.model = model;
+		ControllerCompte = new ControllerCompte();
 	}
 
+	
+	
+	
+	
+	
 	public void start() {
 
+		System.out.print("System running");
 
 	}
 
 	
 	
-	
-	public View getView() {
-		return view;
-	}
 
-	public Model getModel() {
-		return model;
-	}
 }
