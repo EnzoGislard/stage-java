@@ -118,7 +118,7 @@ public class LoadPanel extends JPanel {
 				
 				if (loginTextField.getText().compareTo("") == 0) {
 					JOptionPane.showMessageDialog(null,
-						    "Veuillez entrer un utilisateur",
+						    "Veuillez entrer un nom d'utilisateur",
 						    "Erreur",
 						    JOptionPane.ERROR_MESSAGE);
 	            } 
