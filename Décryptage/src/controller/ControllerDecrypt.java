@@ -66,7 +66,7 @@ public class ControllerDecrypt {
 
 			if (resultat.equals("MESSAGE")) {
 				
-				System.out.println("La clé est: " + convertString(keyTab));
+				System.out.println("La clé est:  " + convertString(keyTab));
 				
 				stop = 1;
 				break;
