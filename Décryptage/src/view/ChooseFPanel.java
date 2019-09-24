@@ -189,7 +189,7 @@ public class ChooseFPanel extends JPanel {
 //						    JOptionPane.INFORMATION_MESSAGE);
 					
 					
-					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller);
+					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller, "");
 					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
 					
 					if (keyFromDecrypt != "") {
