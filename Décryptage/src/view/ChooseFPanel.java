@@ -22,6 +22,9 @@ import controller.Controller;
 
 public class ChooseFPanel extends JPanel {
 	
+	
+	public Controller controller;
+	
 	public String nameOfFile;
 	public String pathOfDirectory;
 	
@@ -52,6 +55,9 @@ public class ChooseFPanel extends JPanel {
 	
 	/** This constructor create a button into the panel and load an image into it */
 	public ChooseFPanel(Controller controller) {		
+		
+		this.controller = controller;
+		
 		
 		//Form
 		Border lineBorder = BorderFactory.createLineBorder(Color.white, 1); 
@@ -90,6 +96,10 @@ public class ChooseFPanel extends JPanel {
 		this.add(destinationButton);
 		this.add(finalFileName);
 		this.add(decrypterButton);
+		
+		
+		
+		this.controller.model.modelGestionFichier.getData("hhe");
 	}
 	
 	public void paintComponent(Graphics g) {

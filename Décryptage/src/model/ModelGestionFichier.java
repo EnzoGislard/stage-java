@@ -1,7 +1,7 @@
 package model;
 
 import java.io.*;
-
+// 	
 public class ModelGestionFichier {
 
 	public ModelGestionFichier() {
