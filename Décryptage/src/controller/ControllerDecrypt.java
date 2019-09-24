@@ -5,20 +5,21 @@ import model.Model;
 public class ControllerDecrypt {
 
 	Model model;
+	Controller controller;
 	String cryptFile;
 	String destFile;
-	
+
 	int stop = 0;
+	String outputFromRecursiveDecrypt = "";
 
 	private int[] keyTab;
 	private int[] decoupeChaineTab;
 
-	public ControllerDecrypt(String cryptFile, String destFile, Model model) {
-		
-		
+	public ControllerDecrypt(String cryptFile, String destFile, Model model, Controller controller) {
 
 		this.cryptFile = cryptFile;
 		this.model = model;
+		this.controller = controller;
 
 		keyTab = new int[3];
 
@@ -28,28 +29,25 @@ public class ControllerDecrypt {
 
 		}
 
-		decryptage();
 	}
 
-	public void decryptage() {
+	public String decryptage() {
 
-		String resultat;
-
-		int[] tab = new int[3];
+		String ouptut;
 
 		decoupeChaineTab = decoupeChaine(cryptFile);
 
+		ouptut = forceBrute(0);
 
-		forceBrute(0);
+		return ouptut;
 
 	}
 
-	public void forceBrute(int debut) {
+	public String forceBrute(int debut) {
 
-		String resultat;
-		
+		String resultatXor;
+		Boolean dictionnary;
 
-		
 		for (int i = 97; i <= 122; i++) {
 
 			if (stop == 1) {
@@ -58,27 +56,30 @@ public class ControllerDecrypt {
 
 			keyTab[debut] = i;
 
+			resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, keyTab);
 
-			resultat = this.model.modelDecrypt.xor(decoupeChaineTab, keyTab);
+			System.out.println(resultatXor);
 
-			System.out.println(resultat);
 			
+			dictionnary = controller.ControllerSGBDR.contactDictionnary(resultatXor);
+			
+			
+			
+			if (dictionnary) {
 
-			if (resultat.equals("MESSAGE")) {
-				
-				System.out.println("La clé est:  " + convertString(keyTab));
-				
+				System.out.println("La clé est: " + convertString(keyTab));
+				outputFromRecursiveDecrypt = convertString(keyTab);
+
 				stop = 1;
 				break;
+
 			}
 
-
-
-			if (debut < keyTab.length - 1 && stop == 0)
+			else if (debut < keyTab.length - 1 && stop == 0)
 				forceBrute(debut + 1);
 
 		}
-
+		return outputFromRecursiveDecrypt;
 	}
 
 	public int[] decoupeChaine(String chaine) {
@@ -112,12 +113,9 @@ public class ControllerDecrypt {
 
 			tabChar[i] = (char) tab[i];
 
-			// System.out.println(tabChar[i]);
 		}
 
 		String output = new String(tabChar);
-
-		// System.out.println(output);
 
 		return output;
 	}
