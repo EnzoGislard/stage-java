@@ -6,12 +6,13 @@ import model.Model;
 public class Controller {
 
 	public final Model model;
-	public ControllerCompte ControllerCompte;
+	public ControllerCompte controllerCompte;
+	public ControllerDecrypt controllerDecrypt;
 
 	public Controller(final Model model) {
 		
 		this.model = model;
-		ControllerCompte = new ControllerCompte();
+		controllerCompte = new ControllerCompte();
 	}
 
 	
@@ -21,7 +22,7 @@ public class Controller {
 	
 	public void start() {
 
-		System.out.print("System running");
+		System.out.println("System running");
 
 	}
 
