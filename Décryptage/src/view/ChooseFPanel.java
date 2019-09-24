@@ -35,10 +35,15 @@ public class ChooseFPanel extends JPanel {
 		//Form
 		Border lineborder = BorderFactory.createLineBorder(Color.white, 2); 
 		Font font = new Font("Courier New", Font.ITALIC, 20);
+<<<<<<< Updated upstream
 	
 		//Labels declaration
 		JLabel titleLabel;
 		JLabel fileLabel;
+=======
+
+
+>>>>>>> Stashed changes
 		
 		/*try {
 			this.img = ImageIO.read(getClass().getResourceAsStream("/Background.jpeg"));
