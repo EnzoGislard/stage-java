@@ -22,8 +22,28 @@ import controller.Controller;
 
 public class ChooseFPanel extends JPanel {
 	
-	private static final long serialVersionUID = 1L;
-	
+    JFileChooser fileChooser = new JFileChooser();
+    String userName;
+    
+    public ChooseFPanel() {
+    	
+    }
+    
+    public void init() {
+    	//Instantiate an NT security information object about the current user.
+        com.sun.security.auth.module.NTSystem NTSystem = new
+                com.sun.security.auth.module.NTSystem();
+        
+        //Stock the name of the current user.
+        userName = NTSystem.getName();
+        
+        //Set the default path of the file research.
+        fileChooser.setCurrentDirectory(new java.io.File("C/Users/" + userName + "/Desktop/"));
+        
+        fileChooser.setDialogTitle("Choose the file witch needs to be decrypted.");
+        
+        
+    }
 
 	private Image img;
 	
@@ -65,12 +85,12 @@ public class ChooseFPanel extends JPanel {
         
 
 	
-	// déclaration JP
+	// dï¿½claration JP
 	JLabel TitleLabel;
 	JButton OpenButton;
 	
 	
-	// Propriétés attributs
+	// Propriï¿½tï¿½s attributs
 
 	TitleLabel = new JLabel("Choose File :", SwingConstants.CENTER);
 	TitleLabel.setBorder(lineborder);
@@ -78,7 +98,7 @@ public class ChooseFPanel extends JPanel {
 	
 	OpenButton = new JButton("FileChooser");
 	
-	OpenButton.
+	//OpenButton.
 	
 	
 	
