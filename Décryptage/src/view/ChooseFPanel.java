@@ -22,6 +22,9 @@ import controller.Controller;
 
 public class ChooseFPanel extends JPanel {
 	
+	public String nameOfFile;
+	public String pathOfDirectory;
+	
     private JFileChooser sourceFileChooser = new JFileChooser();
     private JFileChooser destinationFileChooser = new JFileChooser();
     
@@ -95,7 +98,7 @@ public class ChooseFPanel extends JPanel {
 
 	}
 	
-    public void init(JLabel nameOfFile, JLabel pathOfDirectory, JPanel pan) {
+    public void init(JLabel nameOfFileLabel, JLabel pathOfDirectoryLabel, JPanel pan) {
     	//Instantiate an NT security information object about the current user.
         com.sun.security.auth.module.NTSystem NTSystem = new
                 com.sun.security.auth.module.NTSystem();
@@ -118,12 +121,10 @@ public class ChooseFPanel extends JPanel {
 		    public void actionPerformed(ActionEvent e)
 		    {
 				if(sourceFileChooser.showOpenDialog(sourceButton) == JFileChooser.APPROVE_OPTION)
-					if(sourceFileChooser.getSelectedFile() != null) {
-						/*System.out.println("\n\nYou choose a file with the path : " + sourceFileChooser.getSelectedFile().getAbsolutePath() + "\n");
-						System.out.println("You choose a file with a space of : " + sourceFileChooser.getSelectedFile().getTotalSpace() + " octets \n");
-						System.out.println("You choose the file named : " + sourceFileChooser.getSelectedFile().getName() + "\n");*/
+					if(sourceFileChooser.getSelectedFile() != null) {			
+						nameOfFile = sourceFileChooser.getSelectedFile().getName();
+						nameOfFileLabel.setText(GAP + SOURCE_JLABEL_TEXT + nameOfFile);
 						
-						nameOfFile.setText(GAP + SOURCE_JLABEL_TEXT + sourceFileChooser.getSelectedFile().getName());
 						pan.updateUI();
 					} 
 		    }
@@ -135,7 +136,8 @@ public class ChooseFPanel extends JPanel {
 		    {
 				if(destinationFileChooser.showOpenDialog(sourceButton) == JFileChooser.APPROVE_OPTION)
 					if(destinationFileChooser.getSelectedFile() != null) {
-						pathOfDirectory.setText(GAP + DESTINATION_JLABEL_TEXT + sourceFileChooser.getSelectedFile().getAbsolutePath());
+						pathOfDirectory = destinationFileChooser.getSelectedFile().getAbsolutePath()+"\\";
+						pathOfDirectoryLabel.setText(GAP + DESTINATION_JLABEL_TEXT + pathOfDirectory);
 						pan.updateUI();
 					}
 		    }
