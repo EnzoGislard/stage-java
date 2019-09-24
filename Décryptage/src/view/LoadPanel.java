@@ -56,6 +56,8 @@ public class LoadPanel extends JPanel {
         JButton loginButton;
         JButton passwordGet;
         
+        
+        
 
 
 
