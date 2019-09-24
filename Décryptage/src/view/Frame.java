@@ -33,8 +33,8 @@ public class Frame extends JFrame {
 		this.loadPanel = new LoadPanel(controller);
 		this.chooseFPanel = new ChooseFPanel(controller);
 
-		//this.setContentPane(this.loadPanel);
-		this.setContentPane(this.chooseFPanel);
+		this.setContentPane(this.loadPanel);
+		//this.setContentPane(this.chooseFPanel);
 		this.requestFocus();
 
 		this.setVisible(true);
