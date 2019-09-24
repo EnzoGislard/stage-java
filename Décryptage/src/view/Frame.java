@@ -23,15 +23,15 @@ public class Frame extends JFrame {
 	public Frame(Controller controller) {
 		
 
-		this.setTitle("Home");
+		this.setTitle("Décryptage");
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBackground(Color.BLACK);
 
-		this.loadPanel = new LoadPanel(controller);
-		this.chooseFPanel = new ChooseFPanel(controller);
+		this.loadPanel = new LoadPanel(controller, this);
+		this.chooseFPanel = new ChooseFPanel(controller, this);
 
 		this.setContentPane(this.loadPanel);
 		//this.setContentPane(this.chooseFPanel);

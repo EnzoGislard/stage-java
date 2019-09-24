@@ -20,10 +20,18 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import controller.Controller;
+import controller.ControllerDecrypt;
 
 public class ChooseFPanel extends JPanel {	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Controller controller;
+	
+	public Frame frame;
 	
 	public String nameOfSourceFile;
 	public String pathOfSourceFile;
@@ -55,10 +63,10 @@ public class ChooseFPanel extends JPanel {
 	final int DECRYPT_BUTTON_WIDTH = JTEXTFIELD_WIDTH;	
 	
 	/** This constructor create a button into the panel and load an image into it */
-	public ChooseFPanel(Controller controller) {		
+	public ChooseFPanel(Controller controller, Frame frame) {		
 		
 		this.controller = controller;
-		
+		this.frame = frame;
 		
 		//Form
 		Border lineBorder = BorderFactory.createLineBorder(Color.white, 1); 
@@ -156,30 +164,43 @@ public class ChooseFPanel extends JPanel {
 		decrypterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(nameOfSourceFile == null && pathOfDirectory == null) {
-					JOptionPane.showMessageDialog(null,
-						    "Please select the source file & the destination folder.",
-						    "Error",
-						    JOptionPane.ERROR_MESSAGE);
-				}
-				else if(nameOfSourceFile == null) {
-					JOptionPane.showMessageDialog(null,
-						    "Please select the source file.",
-						    "Error",
-						    JOptionPane.ERROR_MESSAGE);
-				}
-				else if(pathOfDirectory == null) {
-					JOptionPane.showMessageDialog(null,
-						    "Please select the destination folder.",
-						    "Error",
-						    JOptionPane.ERROR_MESSAGE);
-				}
-				else {
-					JOptionPane.showMessageDialog(null,
-						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
-						    "OK",
-						    JOptionPane.INFORMATION_MESSAGE);
-				}
+//				if(nameOfSourceFile == null && pathOfDirectory == null) {
+//					JOptionPane.showMessageDialog(null,
+//						    "Please select the source file & the destination folder.",
+//						    "Error",
+//						    JOptionPane.ERROR_MESSAGE);
+//				}
+//				else if(nameOfSourceFile == null) {
+//					JOptionPane.showMessageDialog(null,
+//						    "Please select the source file.",
+//						    "Error",
+//						    JOptionPane.ERROR_MESSAGE);
+//				}
+//				else if(pathOfDirectory == null) {
+//					JOptionPane.showMessageDialog(null,
+//						    "Please select the destination folder.",
+//						    "Error",
+//						    JOptionPane.ERROR_MESSAGE);
+//				}
+//				else {
+//					JOptionPane.showMessageDialog(null,
+//						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
+//						    "OK",
+//						    JOptionPane.INFORMATION_MESSAGE);
+					
+					
+					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller);
+					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
+					
+					if (keyFromDecrypt != "") {
+						JOptionPane.showMessageDialog(null,
+								"Le fichier est decrypté! La clé trouvée est: " + keyFromDecrypt,
+							    "WOW",
+							    JOptionPane.INFORMATION_MESSAGE);
+						frame.dispose();
+					}
+					
+				//}ln
 			}
 		});
     }
