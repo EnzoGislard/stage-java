@@ -23,15 +23,15 @@ public abstract class Main {
 
         controller.start();
 
-        Procedure.open();
-
-        try {
-            Procedure.getIdentifiant("enzo", "mdp");
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.print("Echec");
-        }
+//        Procedure.open();
+//
+//        try {
+//            Procedure.getIdentifiant("enzo", "mdp");
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            System.out.print("Echec");
+//        }
 
     }
 
