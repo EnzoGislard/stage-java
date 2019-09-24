@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -20,12 +21,12 @@ import javax.swing.border.Border;
 
 import controller.Controller;
 
-public class ChooseFPanel extends JPanel {
-	
+public class ChooseFPanel extends JPanel {	
 	
 	public Controller controller;
 	
-	public String nameOfFile;
+	public String nameOfSourceFile;
+	public String pathOfSourceFile;
 	public String pathOfDirectory;
 	
     private JFileChooser sourceFileChooser = new JFileChooser();
@@ -64,7 +65,7 @@ public class ChooseFPanel extends JPanel {
 		Font font = new Font("Courier New", Font.ITALIC + Font.BOLD, 20);
 	
 		//Labels declaration
-		JLabel nameOfFile;
+		JLabel nameOfSourceFile;
 		JLabel pathOfDirectory;
 		JTextField finalFileName;
 		
@@ -76,7 +77,7 @@ public class ChooseFPanel extends JPanel {
 		
 		this.setLayout(null);
 	
-		nameOfFile = initLabel(SOURCE_JLABEL_TEXT + "\" FILE \"", lineBorder, COMPONENTS_LEFT_MARGIN, 5);
+		nameOfSourceFile = initLabel(SOURCE_JLABEL_TEXT + "\" FILE \"", lineBorder, COMPONENTS_LEFT_MARGIN, 5);
 		pathOfDirectory = initLabel(DESTINATION_JLABEL_TEXT + "\" PATH \"", lineBorder, COMPONENTS_LEFT_MARGIN, 45);
 		
 		finalFileName = new JTextField(16);
@@ -88,18 +89,16 @@ public class ChooseFPanel extends JPanel {
 		destinationButton = initButton("Destination directory", BUTTONS_LEFT_MARGIN, 45);
 		decrypterButton = initButton("Decrypt", COMPONENTS_LEFT_MARGIN, 125, font);
 	
-		this.init(nameOfFile, pathOfDirectory, this);
+		this.init(nameOfSourceFile, pathOfDirectory, finalFileName, this);
 		
-		this.add(nameOfFile);
+		this.add(nameOfSourceFile);
 		this.add(sourceButton);
 		this.add(pathOfDirectory);
 		this.add(destinationButton);
 		this.add(finalFileName);
-		this.add(decrypterButton);
+		this.add(decrypterButton);		
 		
-		
-		
-		this.controller.model.modelGestionFichier.getData("hhe");
+		//this.controller.model.modelGestionFichier.getData(pathOfSourceFile);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -108,7 +107,7 @@ public class ChooseFPanel extends JPanel {
 
 	}
 	
-    public void init(JLabel nameOfFileLabel, JLabel pathOfDirectoryLabel, JPanel pan) {
+    public void init(JLabel nameOfSourceFileLabel, JLabel pathOfDirectoryLabel, JTextField finalNameOfFileJTextField, JPanel pan) {
     	//Instantiate an NT security information object about the current user.
         com.sun.security.auth.module.NTSystem NTSystem = new
                 com.sun.security.auth.module.NTSystem();
@@ -132,8 +131,9 @@ public class ChooseFPanel extends JPanel {
 		    {
 				if(sourceFileChooser.showOpenDialog(sourceButton) == JFileChooser.APPROVE_OPTION)
 					if(sourceFileChooser.getSelectedFile() != null) {			
-						nameOfFile = sourceFileChooser.getSelectedFile().getName();
-						nameOfFileLabel.setText(GAP + SOURCE_JLABEL_TEXT + nameOfFile);
+						nameOfSourceFile = sourceFileChooser.getSelectedFile().getName();
+						pathOfSourceFile = sourceFileChooser.getSelectedFile().getAbsolutePath();
+						nameOfSourceFileLabel.setText(GAP + SOURCE_JLABEL_TEXT + nameOfSourceFile);
 						
 						pan.updateUI();
 					} 
@@ -151,6 +151,36 @@ public class ChooseFPanel extends JPanel {
 						pan.updateUI();
 					}
 		    }
+		});
+		
+		decrypterButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(nameOfSourceFile == null && pathOfDirectory == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the source file & the destination folder.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else if(nameOfSourceFile == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the source file.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else if(pathOfDirectory == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the destination folder.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,
+						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
+						    "OK",
+						    JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
 		});
     }
     
