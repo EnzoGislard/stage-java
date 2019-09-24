@@ -3,7 +3,7 @@ package model;
 
 public class Model{
 
-	ModelGestionFichier modelGestionFichier;
+	public ModelGestionFichier modelGestionFichier;
 	
 	public Model() {
 
