@@ -11,6 +11,7 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private LoadPanel loadPanel;
+	private ChooseFPanel chooseFPanel;
 	
 	final int FRAME_WIDTH = 600;
 	final int FRAME_HEIGHT = 300;
@@ -30,8 +31,10 @@ public class Frame extends JFrame {
 		this.setBackground(Color.BLACK);
 
 		this.loadPanel = new LoadPanel(controller);
+		this.chooseFPanel = new ChooseFPanel(controller);
 
-		this.setContentPane(this.loadPanel);
+		//this.setContentPane(this.loadPanel);
+		this.setContentPane(this.chooseFPanel);
 		this.requestFocus();
 
 		this.setVisible(true);
@@ -42,9 +45,17 @@ public class Frame extends JFrame {
 	public LoadPanel getLoadPanel() {
 		return loadPanel;
 	}
+	
+	public ChooseFPanel getChooseFPanel() {
+		return chooseFPanel;
+	}
 
 	public void setLoadPanel(LoadPanel pan) {
 		loadPanel = pan;
 	}
+	public void setChooseFPanel(ChooseFPanel an) {
+		chooseFPanel = an;
+	}
+
 
 }

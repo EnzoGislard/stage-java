@@ -30,4 +30,5 @@ public class View{
 	public void setBlock(int block) {
 		this.blocker = block;
 	}
+
 }
