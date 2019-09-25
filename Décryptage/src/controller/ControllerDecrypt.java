@@ -8,12 +8,12 @@ public class ControllerDecrypt {
 	Model model;
 	Controller controller;
 	
-	String cryptFile;
+	String cryptString;
 	String destFile;
 	String keyPart = "";
 	
 	int[] keyPartInt;
-	int[] totalKey = new int[12];
+	int[] totalKey;
 	
 
 	int stop = 0;
@@ -23,12 +23,15 @@ public class ControllerDecrypt {
 	private int[] keyTab;
 	private int[] decoupeChaineTab;
 
-	public ControllerDecrypt(String cryptFile, String destFile, Model model, Controller controller, String keyPart) {
+	public ControllerDecrypt(String cryptString, Model model, Controller controller, String keyPart, int keyLenght) {
 
-		this.cryptFile = cryptFile;
+		this.cryptString = cryptString;
 		this.model = model;
 		this.controller = controller;
 		this.keyPart = keyPart;
+		
+		totalKey= new int[keyLenght];
+		
 		
 		char[] keyPartChar = keyPart.toCharArray();
 		
@@ -38,12 +41,7 @@ public class ControllerDecrypt {
 			keyPartInt[i] = keyPartChar[i];
 		}
 
-		keyTab = new int[12-keyPartChar.length];
-
-		for (int i = 0; i < keyTab.length; i++) {
-
-			keyTab[i] = 97;
-		}
+		keyTab = new int[keyLenght-keyPartChar.length];
 
 	}
 
@@ -51,10 +49,30 @@ public class ControllerDecrypt {
 
 		String[] output;
 
-		decoupeChaineTab = transformerAsciiInt(cryptFile);
+		decoupeChaineTab = transformerAsciiInt(cryptString);
+		
 
-		output = forceBrute(0);
+		if (totalKey.length == keyPartInt.length) {
+			String resultatXor;
+			
+			String[] finalResults = new String[2];
+			
+			resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, keyPartInt);
+			outputFromRecursiveDecrypt = convertString(totalKey);
+			finalResults[0] = keyPart;
+			finalResults[1] = resultatXor;
+			
+			output = finalResults;
+		}
+		else {
+			
+			for (int i = 0; i < keyTab.length; i++) {
 
+				keyTab[i] = 97;
+			}
+			
+			output = forceBrute(0);
+		}
 		return output;
 	}
 
