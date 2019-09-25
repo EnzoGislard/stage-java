@@ -189,8 +189,17 @@ public class ChooseFPanel extends JPanel {
 					
 					final String content;
 					
+					controller.controllerDecrypt = new ControllerDecrypt ("N\f", "coucou", controller.model, controller, "authentif");
+					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
 					content = controller.model.modelGestionFichier.getData(pathOfSourceFile);
 					
+					if (keyFromDecrypt != "") {
+						JOptionPane.showMessageDialog(null,
+								"Le fichier est decrypt�! La cl� trouv�e est: " + keyFromDecrypt,
+							    "WOW",
+							    JOptionPane.INFORMATION_MESSAGE);
+						controller.model.cad.close();
+						frame.dispose();
 					try {
 						if(finalNameOfFileJTextField.getText().length() > 1)
 							controller.model.modelGestionFichier.setData(content, pathOfDestinationDirectory + finalNameOfFileJTextField.getText() + ".txt");

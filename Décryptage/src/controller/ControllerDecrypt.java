@@ -2,19 +2,19 @@ package controller;
 
 import model.Model;
 
+
 public class ControllerDecrypt {
 
 	Model model;
 	Controller controller;
-	
-	
+
 	
 	String cryptFile;
 	String destFile;
 	String keyPart = "";
 	
 	int[] keyPartInt;
-	int[] totalKey = new int[3];
+	int[] totalKey = new int[12];
 	
 
 	int stop = 0;
@@ -25,6 +25,8 @@ public class ControllerDecrypt {
 
 	public ControllerDecrypt(String cryptFile, String destFile, Model model, Controller controller, String keyPart) {
 
+		
+		
 		this.cryptFile = cryptFile;
 		this.model = model;
 		this.controller = controller;
@@ -42,7 +44,7 @@ public class ControllerDecrypt {
 		
 
 		
-		keyTab = new int[3-keyPartChar.length];
+		keyTab = new int[12-keyPartChar.length];
 
 		for (int i = 0; i < keyTab.length; i++) {
 
@@ -56,7 +58,7 @@ public class ControllerDecrypt {
 
 		String ouptut;
 
-		decoupeChaineTab = decoupeChaine(cryptFile);
+		decoupeChaineTab = transformerAsciiInt(cryptFile);
 
 		ouptut = forceBrute(0);
 
@@ -67,7 +69,6 @@ public class ControllerDecrypt {
 	public String forceBrute(int debut) {
 
 		String resultatXor;
-		Boolean dictionnary;
 		
 
 		for (int i = 97; i <= 122; i++) {
@@ -104,12 +105,8 @@ public class ControllerDecrypt {
 
 
 			
-			//dictionnary = controller.ControllerSGBDR.contactDictionnary(resultatXor);
 			
-			//dictionnary = true;
-			
-			
-			if (controller.controllerGestionDesMots.testerUnMot(resultatXor)) {
+			if (controller.controllerGestionDesMots.testerUnMot(resultatXor, controller.model.cad)) {
 
 				
 				
@@ -134,6 +131,31 @@ public class ControllerDecrypt {
 		}
 		return outputFromRecursiveDecrypt;
 	}
+	
+	
+	public int[] transformerAsciiInt (String chaine) {
+		
+		
+		char[] StringToCharArray;
+		int[] IntegerArray;
+		
+		
+		StringToCharArray = chaine.toCharArray();
+		
+		
+		IntegerArray= new int[chaine.length()];
+		
+		for (int i = 0; i < chaine.length(); i++) {
+            
+			IntegerArray[i] = (int)StringToCharArray[i];
+			//System.out.println(IntegerArray[i]);
+        }
+		
+	
+		
+		return IntegerArray;
+	}
+	
 
 	public int[] decoupeChaine(String chaine) {
 

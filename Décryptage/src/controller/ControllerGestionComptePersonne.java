@@ -10,24 +10,21 @@ public class ControllerGestionComptePersonne {
 	
 	
 	
-	public ResultSet m_listerLesCompte () {
+	public ResultSet m_listerLesCompte (ModelCad cad) {
 		
 		
-		ModelCad cad = new ModelCad();
 		ModelMapPersonne personne = new ModelMapPersonne();
 		
 		ResultSet output = cad.m_getRows(personne.m_select());
 		
-		cad.close();
 		
 		return output;
 	}
 
 	
 	
-	public Boolean testerCompte (String name, String password) {
+	public Boolean testerCompte (String name, String password, ModelCad cad) {
 		
-		ModelCad cad = new ModelCad();
 		
 		ModelMapPersonne personne = new ModelMapPersonne();
 		
@@ -45,8 +42,6 @@ public class ControllerGestionComptePersonne {
 		}
 		
 		
-		cad.close();
-		
 		if (outputString != "") {
 			return true;
 		}
@@ -56,9 +51,8 @@ public class ControllerGestionComptePersonne {
 	}
 	
 	
-	public void m_CreeUnCompte (String name, String firstName) {
+	public void m_CreeUnCompte (String name, String firstName, ModelCad cad) {
 		
-		ModelCad cad = new ModelCad();
 		ModelMapPersonne personne = new ModelMapPersonne();
 		
 		personne.setName(name);
@@ -66,8 +60,6 @@ public class ControllerGestionComptePersonne {
 		
 	
 		cad.m_actionRows(personne.m_insert());
-		
-		cad.close();
 		
 	}
 	
