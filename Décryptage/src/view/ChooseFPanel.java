@@ -33,9 +33,9 @@ public class ChooseFPanel extends JPanel {
 	
 	public Frame frame;
 	
-	public String nameOfSourceFile;
-	public String pathOfSourceFile;
-	public String pathOfDirectory;
+	private String nameOfSourceFile;
+	private String pathOfSourceFile;
+	private String pathOfDestinationDirectory;
 	
     private JFileChooser sourceFileChooser = new JFileChooser();
     private JFileChooser destinationFileChooser = new JFileChooser();
@@ -76,6 +76,8 @@ public class ChooseFPanel extends JPanel {
 		JLabel nameOfSourceFile;
 		JLabel pathOfDirectory;
 		JTextField finalFileName;
+		JTextField lenghtOfKey;
+		JTextField key;
 		
 		try {
 			this.img = ImageIO.read(getClass().getResourceAsStream("/lol.jpeg"));
@@ -88,10 +90,9 @@ public class ChooseFPanel extends JPanel {
 		nameOfSourceFile = initLabel(SOURCE_JLABEL_TEXT + "\" FILE \"", lineBorder, COMPONENTS_LEFT_MARGIN, 5);
 		pathOfDirectory = initLabel(DESTINATION_JLABEL_TEXT + "\" PATH \"", lineBorder, COMPONENTS_LEFT_MARGIN, 45);
 		
-		finalFileName = new JTextField(16);
-		finalFileName.setBorder(null);
-		finalFileName.setBounds(COMPONENTS_LEFT_MARGIN, 85, JTEXTFIELD_WIDTH, 25);
-		finalFileName.setToolTipText("ENTER NAME OF DEST. FILE");
+		finalFileName = initTextField(16, "ENTER NAME OF DEST. FILE", COMPONENTS_LEFT_MARGIN, 85, JTEXTFIELD_WIDTH, 25);
+		lenghtOfKey = initTextField(4, "ENTER LENGHT OF KEY", COMPONENTS_LEFT_MARGIN+217, 85, JTEXTFIELD_WIDTH, 25);
+		key = initTextField(16, "ENTER THE KEY", COMPONENTS_LEFT_MARGIN+434, 85, JTEXTFIELD_WIDTH, 25);
 		
 		sourceButton = initButton("Search source file", BUTTONS_LEFT_MARGIN, 5);
 		destinationButton = initButton("Destination directory", BUTTONS_LEFT_MARGIN, 45);
@@ -104,7 +105,9 @@ public class ChooseFPanel extends JPanel {
 		this.add(pathOfDirectory);
 		this.add(destinationButton);
 		this.add(finalFileName);
-		this.add(decrypterButton);		
+		this.add(decrypterButton);			
+		this.add(lenghtOfKey);
+		this.add(key);
 		
 		//this.controller.model.modelGestionFichier.getData(pathOfSourceFile);
 	}
@@ -154,8 +157,8 @@ public class ChooseFPanel extends JPanel {
 		    {
 				if(destinationFileChooser.showOpenDialog(sourceButton) == JFileChooser.APPROVE_OPTION)
 					if(destinationFileChooser.getSelectedFile() != null) {
-						pathOfDirectory = destinationFileChooser.getSelectedFile().getAbsolutePath()+"\\";
-						pathOfDirectoryLabel.setText(GAP + DESTINATION_JLABEL_TEXT + pathOfDirectory);
+						pathOfDestinationDirectory = destinationFileChooser.getSelectedFile().getAbsolutePath()+"\\";
+						pathOfDirectoryLabel.setText(GAP + DESTINATION_JLABEL_TEXT + pathOfDestinationDirectory);
 						pan.updateUI();
 					}
 		    }
@@ -164,41 +167,59 @@ public class ChooseFPanel extends JPanel {
 		decrypterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if(nameOfSourceFile == null && pathOfDirectory == null) {
-//					JOptionPane.showMessageDialog(null,
-//						    "Please select the source file & the destination folder.",
-//						    "Error",
-//						    JOptionPane.ERROR_MESSAGE);
-//				}
-//				else if(nameOfSourceFile == null) {
-//					JOptionPane.showMessageDialog(null,
-//						    "Please select the source file.",
-//						    "Error",
-//						    JOptionPane.ERROR_MESSAGE);
-//				}
-//				else if(pathOfDirectory == null) {
-//					JOptionPane.showMessageDialog(null,
-//						    "Please select the destination folder.",
-//						    "Error",
-//						    JOptionPane.ERROR_MESSAGE);
-//				}
-//				else {
-//					JOptionPane.showMessageDialog(null,
-//						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
-//						    "OK",
-//						    JOptionPane.INFORMATION_MESSAGE);
+				if(nameOfSourceFile == null && pathOfDestinationDirectory == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the source file & the destination folder.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else if(nameOfSourceFile == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the source file.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else if(pathOfDestinationDirectory == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the destination folder.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else {
 					
+					final String content;
 					
-					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller, "cl");
-					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
+					content = controller.model.modelGestionFichier.getData(pathOfSourceFile);
 					
-					if (keyFromDecrypt != "") {
-						JOptionPane.showMessageDialog(null,
-								"Le fichier est decrypté! La clé trouvée est: " + keyFromDecrypt,
-							    "WOW",
-							    JOptionPane.INFORMATION_MESSAGE);
-						frame.dispose();
+					try {
+						if(finalNameOfFileJTextField.getText().length() > 1)
+							controller.model.modelGestionFichier.setData(content, pathOfDestinationDirectory + finalNameOfFileJTextField.getText() + ".txt");
+						else
+							controller.model.modelGestionFichier.setData(content, pathOfDestinationDirectory + nameOfSourceFile);
+						
+						System.out.println("File Created!");
+					} catch (IOException e1) {
+						System.out.println("A error failed!");
+						e1.printStackTrace();
 					}
+					
+					JOptionPane.showMessageDialog(null,
+						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
+						    "OK",
+						    JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				
+//					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller, "");
+//					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
+//					
+//					if (keyFromDecrypt != "") {
+//						JOptionPane.showMessageDialog(null,
+//								"Le fichier est decryptï¿½! La clï¿½ trouvï¿½e est: " + keyFromDecrypt,
+//							    "WOW",
+//							    JOptionPane.INFORMATION_MESSAGE);
+//						frame.dispose();
+//					}
 					
 				//}ln
 			}
@@ -230,6 +251,17 @@ public class ChooseFPanel extends JPanel {
     	button.setBounds(x, y, DECRYPT_BUTTON_WIDTH, DECRYPT_BUTTON_HEIGHT);  
     	
     	return button;
+    }
+    
+    private JTextField initTextField(int columns, String toolTipText, int x, int y, int width, int height) {
+    	
+    	JTextField inputTextField = new JTextField(columns);
+    			
+    	inputTextField.setBorder(null);
+    	inputTextField.setBounds(x, y, width, height);
+    	inputTextField.setToolTipText(toolTipText);
+    	
+    	return inputTextField;
     }
     
 }

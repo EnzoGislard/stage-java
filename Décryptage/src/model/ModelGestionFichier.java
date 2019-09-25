@@ -4,6 +4,8 @@ import java.io.*;
 // 	
 public class ModelGestionFichier {
 
+	private String text;
+	
 	public ModelGestionFichier() {
 
 	}
@@ -25,6 +27,11 @@ public class ModelGestionFichier {
 
 			while ((line = bufferedReader.readLine()) != null) {
 				System.out.println(line);
+				
+				if(text != null)
+					text = text + line;
+				else
+					text = line;
 			}
 
 			// Always close files.
@@ -36,7 +43,16 @@ public class ModelGestionFichier {
 			// Or we could just do this:
 			// ex.printStackTrace();
 		}
-		return null;
+		return text;
 	}
 
+	
+	public void setData(String file, String filename)
+		  throws IOException {
+
+			    BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+			    writer.write(file);
+			     
+			    writer.close();
+	}
 }
