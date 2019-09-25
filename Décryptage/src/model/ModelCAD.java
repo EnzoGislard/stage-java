@@ -4,13 +4,6 @@ import java.sql.*;
 
 public class ModelCAD {
 
-//     DataSet GetRows(String rq_sql, String resultSetName) {
-//
-//
-//
-//
-//
-//     }
 
     private static String URL = "jdbc:mysql://localhost/bddcryptage? autoReconnect=true&useSSL=false&useUnicode=true&useJDBC"
             + "CompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -20,12 +13,15 @@ public class ModelCAD {
     public Connection connection;
     public Statement statement;
 
-    public static String getMAPQuery(int id) {
-        return "call CALL_MAP(" + id + ");";
-    }
+
 
     public static String getIdentifiantQuery(String Utilisateur, String Password) {
         return "call Identification('" + Utilisateur + "', '" + Password + "');";
+    }
+    
+    
+    public static String getWordQuery(String word) {
+        return "call donnée ('" + word + "');";
     }
 
     public ModelCAD() {
@@ -37,7 +33,7 @@ public class ModelCAD {
 
     public boolean open() {
 
-        System.out.println("\n\nopening a connection");
+        System.out.println("opening a connection");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -57,7 +53,7 @@ public class ModelCAD {
 
     public void close() {
 
-        System.out.println("closing a connection");
+        System.out.println("closing a connection\n");
 
         if (connection != null)
             try {
@@ -66,33 +62,45 @@ public class ModelCAD {
             }
     }
 
-    public String getMAp(int id) throws SQLException {
 
-        final ResultSet resultSet = this.executeQuery(getMAPQuery(id));
-String map = "";
-
-        if (resultSet.first()) {
-            map = resultSet.getString("map");
-        }
-
-        return map;
-
-    }
 
     public String getIdentifiant(String Utilisateur, String Password) throws SQLException {
 
+    	String output;
+    	
         ResultSet resultSet = this.executeQuery(getIdentifiantQuery(Utilisateur, Password));
 
         if (resultSet.next()) {
-            System.out.println(resultSet.getString("Utilisateurs"));
-            System.out.println(resultSet.getString("Password"));
+
+            output = resultSet.getString("Utilisateurs");
+
+            return output;
 
         } else {
-            System.out.println("Mauvais utilisateurs ou mauvais mot de passe");
+
+            return "false";
         }
+        
+    }
+    
+    
+    public String getWord(String word) throws SQLException {
 
-        return null;
+    	String output;
+    	
+        ResultSet resultSet = this.executeQuery(getWordQuery(word));
 
+        if (resultSet.next()) {
+
+            output = resultSet.getString("donnee");
+
+            return output;
+
+        } else {
+            
+            return "false";
+        }
+        
     }
 
     private ResultSet executeQuery(String query_p) throws SQLException {

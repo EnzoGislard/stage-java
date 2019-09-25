@@ -10,7 +10,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import controller.Controller;
-import controller.ControllerDecrypt;
 
 
 public class LoadPanel extends JPanel {
@@ -19,17 +18,19 @@ public class LoadPanel extends JPanel {
 
 	private Image img;
 	
-	public JTextField id; 
-	public JPasswordField password;
+	private Frame frame;
 	
-	public JButton authentify;
-	public Boolean maskPassword = true;
+	private JTextField id; 
+	private JPasswordField password;
+	
+	private JButton authentify;
+	private Boolean maskPassword = true;
 	
 
 	/** This constructor create a button into the panel and load an image into it */
-	public LoadPanel(Controller controller) {
+	public LoadPanel(Controller controller, Frame frame) {
 
-		
+		this.setFrame(frame);
 		
 		// mise en forme
 		Border lineborder = BorderFactory.createLineBorder(Color.white, 2); 
@@ -66,7 +67,7 @@ public class LoadPanel extends JPanel {
 		
 		
 		// Propriétés attributs
-		loginLabel = new JLabel("User Name:", SwingConstants.CENTER);
+		loginLabel = new JLabel("Identifiant:", SwingConstants.CENTER);
 	    loginLabel.setBorder(lineborder);
 	    loginLabel.setForeground(Color.white);
 	    loginLabel.setFont(font);
@@ -84,7 +85,7 @@ public class LoadPanel extends JPanel {
         
         
         
-        passwordLabel = new JLabel("Password:", SwingConstants.CENTER);
+        passwordLabel = new JLabel("Mot de passe:", SwingConstants.CENTER);
         passwordLabel.setBorder(lineborder);
         passwordLabel.setForeground(Color.white);
         passwordLabel.setFont(font);
@@ -99,7 +100,7 @@ public class LoadPanel extends JPanel {
         
         
         
-        passwordGet = new JButton("Display Password");
+        passwordGet = new JButton("Afficher MDP");
         
         passwordGet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -115,7 +116,7 @@ public class LoadPanel extends JPanel {
         });
         
         
-        loginButton = new JButton("Login");
+        loginButton = new JButton("Connexion");
         loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -137,10 +138,21 @@ public class LoadPanel extends JPanel {
 				else {
 					System.out.print("");
 					
-						controller.controllerDecrypt = new ControllerDecrypt("00101110001010010011011000110000001011010010001000100110", "coucou", controller.model);
+					boolean contolCompteBool = controller.ControllerSGBDR.pcs_authentifier(loginTextField.getText(), String.valueOf(passwordPasswordField.getPassword()));
 					
-					//boolean contolCompteBool = controller.controllerCompte.pcs_authentifier(loginTextField.getText(), String.valueOf(passwordPasswordField.getPassword()));
-					//System.out.print(contolCompteBool);
+					if (contolCompteBool == true) {
+						frame.remove(frame.getLoadPanel());
+						frame.setContentPane(frame.getChooseFPanel());
+						frame.repaint();
+						frame.revalidate();
+					}
+					else {
+						JOptionPane.showMessageDialog(null,
+								"Identifiant ou mot de passe incorrect! ",
+							    "HOULA",
+							    JOptionPane.INFORMATION_MESSAGE);
+					}
+					
 	            }
 			}
        });
@@ -160,5 +172,37 @@ public class LoadPanel extends JPanel {
 
 		g.drawImage(this.img, 0, 0, this.getWidth(), this.getHeight(), this);
 
+	}
+
+	public Frame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(Frame frame) {
+		this.frame = frame;
+	}
+
+	public JTextField getId() {
+		return id;
+	}
+
+	public void setId(JTextField id) {
+		this.id = id;
+	}
+
+	public JPasswordField getPassword() {
+		return password;
+	}
+
+	public void setPassword(JPasswordField password) {
+		this.password = password;
+	}
+
+	public JButton getAuthentify() {
+		return authentify;
+	}
+
+	public void setAuthentify(JButton authentify) {
+		this.authentify = authentify;
 	}
 }

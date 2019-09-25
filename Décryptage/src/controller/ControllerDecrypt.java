@@ -5,22 +5,40 @@ import model.Model;
 public class ControllerDecrypt {
 
 	Model model;
+	Controller controller;
 	String cryptFile;
 	String destFile;
+	String keyPart = "";
 	
+	int[] keyPartInt;
+	int[] totalKey = new int[3];
+	
+
 	int stop = 0;
+	String outputFromRecursiveDecrypt = "";
 
 	private int[] keyTab;
 	private int[] decoupeChaineTab;
 
-	public ControllerDecrypt(String cryptFile, String destFile, Model model) {
-		
-		
+	public ControllerDecrypt(String cryptFile, String destFile, Model model, Controller controller, String keyPart) {
 
 		this.cryptFile = cryptFile;
 		this.model = model;
+		this.controller = controller;
+		this.keyPart = keyPart;
+		
+		
+		char[] keyPartChar = keyPart.toCharArray();
+		
+		keyPartInt = new int[keyPartChar.length];
+		
+		for (int i = 0; i < keyPartChar.length; i++) {
+			keyPartInt[i] = keyPartChar[i];
+		}
+		
 
-		keyTab = new int[3];
+		
+		keyTab = new int[3-keyPartChar.length];
 
 		for (int i = 0; i < keyTab.length; i++) {
 
@@ -28,28 +46,26 @@ public class ControllerDecrypt {
 
 		}
 
-		decryptage();
 	}
 
-	public void decryptage() {
+	public String decryptage() {
 
-		String resultat;
-
-		int[] tab = new int[3];
+		String ouptut;
 
 		decoupeChaineTab = decoupeChaine(cryptFile);
 
+		ouptut = forceBrute(0);
 
-		forceBrute(0);
+		return ouptut;
 
 	}
 
-	public void forceBrute(int debut) {
+	public String forceBrute(int debut) {
 
-		String resultat;
+		String resultatXor;
+		Boolean dictionnary;
 		
 
-		
 		for (int i = 97; i <= 122; i++) {
 
 			if (stop == 1) {
@@ -57,28 +73,61 @@ public class ControllerDecrypt {
 			}
 
 			keyTab[debut] = i;
-
-
-			resultat = this.model.modelDecrypt.xor(decoupeChaineTab, keyTab);
-
-			System.out.println(resultat);
 			
+			
+			if (keyPart != "") {
+				
+				for(int a = 0 ; a < keyPartInt.length; a++) {
+					totalKey[a]=keyPartInt[a];
+					
+				    for(int b = 0 ; b < keyTab.length; b++) {
+				    	totalKey[b+keyPartInt.length]=keyTab[b]; 
+				    }
+				       
+				}
+				
+				
+				resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, totalKey);
 
-			if (resultat.equals("MESSAGE")) {
+				System.out.println(resultatXor);
 				
-				System.out.println("La clé est:  " + convertString(keyTab));
-				
-				stop = 1;
-				break;
+			}
+			else {
+				resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, keyTab);
+
+				System.out.println(resultatXor);
 			}
 
 
+			
+			dictionnary = controller.ControllerSGBDR.contactDictionnary(resultatXor);
+			
+			
+			
+			if (dictionnary) {
 
-			if (debut < keyTab.length - 1 && stop == 0)
+				
+				
+				if (keyPart != "") {
+					System.out.println("La clé est: " + convertString(totalKey));
+					outputFromRecursiveDecrypt = convertString(totalKey);
+				}
+				else {
+					System.out.println("La clé est: " + convertString(keyTab));
+					outputFromRecursiveDecrypt = convertString(keyTab);
+				}
+				
+
+				stop = 1;
+				break;
+
+			}
+
+			else if (debut < keyTab.length - 1 && stop == 0)
 				forceBrute(debut + 1);
 
 		}
-
+		return outputFromRecursiveDecrypt;
 	}
 
 	public int[] decoupeChaine(String chaine) {
@@ -112,12 +161,9 @@ public class ControllerDecrypt {
 
 			tabChar[i] = (char) tab[i];
 
-			// System.out.println(tabChar[i]);
 		}
 
 		String output = new String(tabChar);
-
-		// System.out.println(output);
 
 		return output;
 	}
