@@ -33,9 +33,9 @@ public class ChooseFPanel extends JPanel {
 	
 	public Frame frame;
 	
-	public String nameOfSourceFile;
-	public String pathOfSourceFile;
-	public String pathOfDirectory;
+	private String nameOfSourceFile;
+	private String pathOfSourceFile;
+	private String pathOfDirectory;
 	
     private JFileChooser sourceFileChooser = new JFileChooser();
     private JFileChooser destinationFileChooser = new JFileChooser();
@@ -76,6 +76,8 @@ public class ChooseFPanel extends JPanel {
 		JLabel nameOfSourceFile;
 		JLabel pathOfDirectory;
 		JTextField finalFileName;
+		JTextField lenghtOfKey;
+		JTextField key;
 		
 		try {
 			this.img = ImageIO.read(getClass().getResourceAsStream("/lol.jpeg"));
@@ -88,10 +90,9 @@ public class ChooseFPanel extends JPanel {
 		nameOfSourceFile = initLabel(SOURCE_JLABEL_TEXT + "\" FILE \"", lineBorder, COMPONENTS_LEFT_MARGIN, 5);
 		pathOfDirectory = initLabel(DESTINATION_JLABEL_TEXT + "\" PATH \"", lineBorder, COMPONENTS_LEFT_MARGIN, 45);
 		
-		finalFileName = new JTextField(16);
-		finalFileName.setBorder(null);
-		finalFileName.setBounds(COMPONENTS_LEFT_MARGIN, 85, JTEXTFIELD_WIDTH, 25);
-		finalFileName.setToolTipText("ENTER NAME OF DEST. FILE");
+		finalFileName = initTextField(16, "ENTER NAME OF DEST. FILE", COMPONENTS_LEFT_MARGIN, 85, JTEXTFIELD_WIDTH, 25);
+		lenghtOfKey = initTextField(4, "ENTER LENGHT OF KEY", COMPONENTS_LEFT_MARGIN+217, 85, JTEXTFIELD_WIDTH, 25);
+		key = initTextField(16, "ENTER THE KEY", COMPONENTS_LEFT_MARGIN+434, 85, JTEXTFIELD_WIDTH, 25);
 		
 		sourceButton = initButton("Search source file", BUTTONS_LEFT_MARGIN, 5);
 		destinationButton = initButton("Destination directory", BUTTONS_LEFT_MARGIN, 45);
@@ -104,7 +105,9 @@ public class ChooseFPanel extends JPanel {
 		this.add(pathOfDirectory);
 		this.add(destinationButton);
 		this.add(finalFileName);
-		this.add(decrypterButton);		
+		this.add(decrypterButton);			
+		this.add(lenghtOfKey);
+		this.add(key);
 		
 		//this.controller.model.modelGestionFichier.getData(pathOfSourceFile);
 	}
@@ -232,6 +235,17 @@ public class ChooseFPanel extends JPanel {
     	button.setBounds(x, y, DECRYPT_BUTTON_WIDTH, DECRYPT_BUTTON_HEIGHT);  
     	
     	return button;
+    }
+    
+    private JTextField initTextField(int columns, String toolTipText, int x, int y, int width, int height) {
+    	
+    	JTextField inputTextField = new JTextField(columns);
+    			
+    	inputTextField.setBorder(null);
+    	inputTextField.setBounds(x, y, width, height);
+    	inputTextField.setToolTipText(toolTipText);
+    	
+    	return inputTextField;
     }
     
 }
