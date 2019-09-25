@@ -7,7 +7,6 @@ public class ControllerDecrypt {
 
 	Model model;
 	Controller controller;
-
 	
 	String cryptFile;
 	String destFile;
@@ -19,20 +18,17 @@ public class ControllerDecrypt {
 
 	int stop = 0;
 	String outputFromRecursiveDecrypt = "";
+	String[] finalResults = new String[2];
 
 	private int[] keyTab;
 	private int[] decoupeChaineTab;
 
 	public ControllerDecrypt(String cryptFile, String destFile, Model model, Controller controller, String keyPart) {
 
-		
-		
 		this.cryptFile = cryptFile;
 		this.model = model;
 		this.controller = controller;
 		this.keyPart = keyPart;
-
-		
 		
 		char[] keyPartChar = keyPart.toCharArray();
 		
@@ -41,35 +37,30 @@ public class ControllerDecrypt {
 		for (int i = 0; i < keyPartChar.length; i++) {
 			keyPartInt[i] = keyPartChar[i];
 		}
-		
 
-		
 		keyTab = new int[12-keyPartChar.length];
 
 		for (int i = 0; i < keyTab.length; i++) {
 
 			keyTab[i] = 97;
-
 		}
 
 	}
 
-	public String decryptage() {
+	public String[] decryptage() {
 
-		String ouptut;
+		String[] output;
 
 		decoupeChaineTab = transformerAsciiInt(cryptFile);
 
-		ouptut = forceBrute(0);
+		output = forceBrute(0);
 
-		return ouptut;
-
+		return output;
 	}
 
-	public String forceBrute(int debut) {
+	public String[] forceBrute(int debut) {
 
-		String resultatXor;
-		
+		String resultatXor = "";
 
 		for (int i = 97; i <= 122; i++) {
 
@@ -78,7 +69,6 @@ public class ControllerDecrypt {
 			}
 
 			keyTab[debut] = i;
-			
 			
 			if (keyPart != "") {
 				
@@ -90,8 +80,7 @@ public class ControllerDecrypt {
 				    }
 				       
 				}
-				
-				
+
 				resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, totalKey);
 
 				System.out.println(resultatXor);
@@ -102,46 +91,37 @@ public class ControllerDecrypt {
 
 				System.out.println(resultatXor);
 			}
-
-
-			
 			
 			if (controller.controllerGestionDesMots.testerUnMot(resultatXor, controller.model.cad)) {
 
-				
-				
 				if (keyPart != "") {
-					System.out.println("La clé est: " + convertString(totalKey));
+					System.out.println("The key is : " + convertString(totalKey));
 					outputFromRecursiveDecrypt = convertString(totalKey);
+					finalResults[0] = outputFromRecursiveDecrypt;
+					finalResults[1] = resultatXor;
 				}
 				else {
-					System.out.println("La clé est: " + convertString(keyTab));
+					System.out.println("The key is : " + convertString(keyTab));
 					outputFromRecursiveDecrypt = convertString(keyTab);
+					finalResults[0] = outputFromRecursiveDecrypt;
+					finalResults[1] = resultatXor;
 				}
-				
 
 				stop = 1;
 				break;
-
 			}
-
 			else if (debut < keyTab.length - 1 && stop == 0)
 				forceBrute(debut + 1);
-
 		}
-		return outputFromRecursiveDecrypt;
+		return finalResults;
 	}
 	
-	
 	public int[] transformerAsciiInt (String chaine) {
-		
 		
 		char[] StringToCharArray;
 		int[] IntegerArray;
 		
-		
 		StringToCharArray = chaine.toCharArray();
-		
 		
 		IntegerArray= new int[chaine.length()];
 		
@@ -151,12 +131,9 @@ public class ControllerDecrypt {
 			//System.out.println(IntegerArray[i]);
         }
 		
-	
-		
 		return IntegerArray;
 	}
 	
-
 	public int[] decoupeChaine(String chaine) {
 
 		int compteur = 0;
@@ -185,9 +162,7 @@ public class ControllerDecrypt {
 		char[] tabChar = new char[tab.length];
 
 		for (int i = 0; i < tab.length; i++) {
-
 			tabChar[i] = (char) tab[i];
-
 		}
 
 		String output = new String(tabChar);

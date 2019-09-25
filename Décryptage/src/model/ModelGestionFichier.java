@@ -26,11 +26,10 @@ public class ModelGestionFichier {
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 			while ((line = bufferedReader.readLine()) != null) {
-				System.out.println(line);
 				
-				if(text != null)
+				/*if(text != null)
 					text = text + line;
-				else
+				else*/
 					text = line;
 			}
 
