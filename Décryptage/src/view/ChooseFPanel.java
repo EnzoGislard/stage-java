@@ -167,43 +167,44 @@ public class ChooseFPanel extends JPanel {
 		decrypterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if(nameOfSourceFile == null && pathOfDirectory == null) {
-//					JOptionPane.showMessageDialog(null,
-//						    "Please select the source file & the destination folder.",
-//						    "Error",
-//						    JOptionPane.ERROR_MESSAGE);
-//				}
-//				else if(nameOfSourceFile == null) {
-//					JOptionPane.showMessageDialog(null,
-//						    "Please select the source file.",
-//						    "Error",
-//						    JOptionPane.ERROR_MESSAGE);
-//				}
-//				else if(pathOfDirectory == null) {
-//					JOptionPane.showMessageDialog(null,
-//						    "Please select the destination folder.",
-//						    "Error",
-//						    JOptionPane.ERROR_MESSAGE);
-//				}
-//				else {
-//					JOptionPane.showMessageDialog(null,
-//						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
-//						    "OK",
-//						    JOptionPane.INFORMATION_MESSAGE);
+				if(nameOfSourceFile == null && pathOfDirectory == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the source file & the destination folder.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else if(nameOfSourceFile == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the source file.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else if(pathOfDirectory == null) {
+					JOptionPane.showMessageDialog(null,
+						    "Please select the destination folder.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					controller.model.modelGestionFichier.getData(pathOfSourceFile);
 					
-					controller.model.modelGestionFichier.getData("C:\\Users\\1823821\\Desktop\\testdata.txt");
+					JOptionPane.showMessageDialog(null,
+						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
+						    "OK",
+						    JOptionPane.INFORMATION_MESSAGE);
+				}
 				
 				
-					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller, "");
-					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
-					
-					if (keyFromDecrypt != "") {
-						JOptionPane.showMessageDialog(null,
-								"Le fichier est decrypté! La clé trouvée est: " + keyFromDecrypt,
-							    "WOW",
-							    JOptionPane.INFORMATION_MESSAGE);
-						frame.dispose();
-					}
+//					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller, "");
+//					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
+//					
+//					if (keyFromDecrypt != "") {
+//						JOptionPane.showMessageDialog(null,
+//								"Le fichier est decrypté! La clé trouvée est: " + keyFromDecrypt,
+//							    "WOW",
+//							    JOptionPane.INFORMATION_MESSAGE);
+//						frame.dispose();
+//					}
 					
 				//}ln
 			}
