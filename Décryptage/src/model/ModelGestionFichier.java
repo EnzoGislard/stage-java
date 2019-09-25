@@ -42,4 +42,13 @@ public class ModelGestionFichier {
 		return text;
 	}
 
+	
+	public void setData(String file, String filename)
+		  throws IOException {
+
+			    BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+			    writer.write(file);
+			     
+			    writer.close();
+	}
 }

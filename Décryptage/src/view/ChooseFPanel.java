@@ -186,7 +186,19 @@ public class ChooseFPanel extends JPanel {
 						    JOptionPane.ERROR_MESSAGE);
 				}
 				else {
-					controller.model.modelGestionFichier.getData(pathOfSourceFile);
+					
+					final String content;
+					
+					content = controller.model.modelGestionFichier.getData(pathOfSourceFile);
+					
+					try {
+						controller.model.modelGestionFichier.setData(content, "text.txt");
+						System.out.println("File Created!");
+					} catch (IOException e1) {
+						System.out.println("A error failed!");
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 					JOptionPane.showMessageDialog(null,
 						    "Everything is OK (exept for the final name of the file.. But we'll see later).",
