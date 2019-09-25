@@ -8,6 +8,11 @@ public class ControllerDecrypt {
 	Controller controller;
 	String cryptFile;
 	String destFile;
+	String keyPart = "";
+	
+	int[] keyPartInt;
+	int[] totalKey = new int[3];
+	
 
 	int stop = 0;
 	String outputFromRecursiveDecrypt = "";
@@ -15,13 +20,25 @@ public class ControllerDecrypt {
 	private int[] keyTab;
 	private int[] decoupeChaineTab;
 
-	public ControllerDecrypt(String cryptFile, String destFile, Model model, Controller controller) {
+	public ControllerDecrypt(String cryptFile, String destFile, Model model, Controller controller, String keyPart) {
 
 		this.cryptFile = cryptFile;
 		this.model = model;
 		this.controller = controller;
+		this.keyPart = keyPart;
+		
+		
+		char[] keyPartChar = keyPart.toCharArray();
+		
+		keyPartInt = new int[keyPartChar.length];
+		
+		for (int i = 0; i < keyPartChar.length; i++) {
+			keyPartInt[i] = keyPartChar[i];
+		}
+		
 
-		keyTab = new int[3];
+		
+		keyTab = new int[3-keyPartChar.length];
 
 		for (int i = 0; i < keyTab.length; i++) {
 
@@ -47,6 +64,7 @@ public class ControllerDecrypt {
 
 		String resultatXor;
 		Boolean dictionnary;
+		
 
 		for (int i = 97; i <= 122; i++) {
 
@@ -55,10 +73,31 @@ public class ControllerDecrypt {
 			}
 
 			keyTab[debut] = i;
+			
+			
+			if (keyPart != "") {
+				
+				for(int a = 0 ; a < keyPartInt.length; a++) {
+					totalKey[a]=keyPartInt[a];
+					
+				    for(int b = 0 ; b < keyTab.length; b++) {
+				    	totalKey[b+keyPartInt.length]=keyTab[b]; 
+				    }
+				       
+				}
+				
+				
+				resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, totalKey);
 
-			resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, keyTab);
+				System.out.println(resultatXor);
+				
+			}
+			else {
+				resultatXor = this.model.modelDecrypt.xor(decoupeChaineTab, keyTab);
 
-			System.out.println(resultatXor);
+				System.out.println(resultatXor);
+			}
+
 
 			
 			dictionnary = controller.ControllerSGBDR.contactDictionnary(resultatXor);
@@ -67,8 +106,17 @@ public class ControllerDecrypt {
 			
 			if (dictionnary) {
 
-				System.out.println("La clé est: " + convertString(keyTab));
-				outputFromRecursiveDecrypt = convertString(keyTab);
+				
+				
+				if (keyPart != "") {
+					System.out.println("La clé est: " + convertString(totalKey));
+					outputFromRecursiveDecrypt = convertString(totalKey);
+				}
+				else {
+					System.out.println("La clé est: " + convertString(keyTab));
+					outputFromRecursiveDecrypt = convertString(keyTab);
+				}
+				
 
 				stop = 1;
 				break;
