@@ -4,6 +4,8 @@ import java.io.*;
 // 	
 public class ModelGestionFichier {
 
+	private String text;
+	
 	public ModelGestionFichier() {
 
 	}
@@ -25,6 +27,7 @@ public class ModelGestionFichier {
 
 			while ((line = bufferedReader.readLine()) != null) {
 				System.out.println(line);
+				text = text + line;
 			}
 
 			// Always close files.
@@ -36,7 +39,7 @@ public class ModelGestionFichier {
 			// Or we could just do this:
 			// ex.printStackTrace();
 		}
-		return null;
+		return text;
 	}
 
 }

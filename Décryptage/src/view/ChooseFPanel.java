@@ -188,7 +188,9 @@ public class ChooseFPanel extends JPanel {
 //						    "OK",
 //						    JOptionPane.INFORMATION_MESSAGE);
 					
-					
+					controller.model.modelGestionFichier.getData("C:\\Users\\1823821\\Desktop\\testdata.txt");
+				
+				
 					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller, "");
 					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
 					
