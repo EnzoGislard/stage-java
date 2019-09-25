@@ -6,8 +6,9 @@ import model.Model;
 public class Controller {
 
 	public final Model model;
-	public ControllerSGBDR ControllerSGBDR;
 	public ControllerDecrypt controllerDecrypt;
+	public ControllerGestionDesMots controllerGestionDesMots;
+	public ControllerGestionComptePersonne controllerGestionComptePersonne;
 
 	public Controller(final Model model) {
 		
@@ -17,13 +18,11 @@ public class Controller {
 
 	
 	
-	
-	
-	
 	public void start() {
 
 		System.out.println("System running\n");
-		ControllerSGBDR = new ControllerSGBDR();
+		controllerGestionComptePersonne = new ControllerGestionComptePersonne();
+		controllerGestionDesMots = new ControllerGestionDesMots();
 	}
 
 	
