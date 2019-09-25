@@ -3,7 +3,6 @@ package main;
 
 import controller.Controller;
 import model.Model;
-import model.ModelCAD;
 import view.View;
 
 public abstract class Main {
@@ -16,8 +15,6 @@ public abstract class Main {
         final Controller controller = new Controller(model);
 
         final View view = new View(controller);
-
-        final ModelCAD Procedure = new ModelCAD();
 
 
         controller.start();

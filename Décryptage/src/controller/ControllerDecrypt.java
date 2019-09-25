@@ -6,6 +6,9 @@ public class ControllerDecrypt {
 
 	Model model;
 	Controller controller;
+	
+	
+	
 	String cryptFile;
 	String destFile;
 	String keyPart = "";
@@ -26,6 +29,7 @@ public class ControllerDecrypt {
 		this.model = model;
 		this.controller = controller;
 		this.keyPart = keyPart;
+
 		
 		
 		char[] keyPartChar = keyPart.toCharArray();
@@ -100,11 +104,12 @@ public class ControllerDecrypt {
 
 
 			
-			dictionnary = controller.ControllerSGBDR.contactDictionnary(resultatXor);
+			//dictionnary = controller.ControllerSGBDR.contactDictionnary(resultatXor);
+			
+			//dictionnary = true;
 			
 			
-			
-			if (dictionnary) {
+			if (controller.controllerGestionDesMots.testerUnMot(resultatXor)) {
 
 				
 				
