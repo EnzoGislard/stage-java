@@ -9,9 +9,9 @@ import model.ModelCad;
 
 public class ControllerGestionDesMots {
 
-	public boolean testerUnMot(String mot) {
+	public boolean testerUnMot(String mot, ModelCad cad) {
 
-		ModelCad cad = new ModelCad();
+		//ModelCad cad = new ModelCad();
 		ModelMapDic dictionnaire = new ModelMapDic();
 
 		ResultSet output = cad.m_getRows(dictionnaire.m_trouverMot(mot));
@@ -28,7 +28,7 @@ public class ControllerGestionDesMots {
 		}
 
 		
-		cad.close();
+		//cad.close();
 		
 		if (outputString != "") {
 			return true;

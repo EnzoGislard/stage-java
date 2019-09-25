@@ -136,9 +136,8 @@ public class LoadPanel extends JPanel {
 				
 				
 				else {
-					System.out.print("");
 					
-					boolean contolCompteBool = controller.controllerGestionComptePersonne.testerCompte(loginTextField.getText(), String.valueOf(passwordPasswordField.getPassword()));
+					boolean contolCompteBool = controller.controllerGestionComptePersonne.testerCompte(loginTextField.getText(), String.valueOf(passwordPasswordField.getPassword()), controller.model.cad );
 					
 					if (contolCompteBool == true) {
 						frame.remove(frame.getLoadPanel());

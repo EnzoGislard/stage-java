@@ -189,7 +189,7 @@ public class ChooseFPanel extends JPanel {
 //						    JOptionPane.INFORMATION_MESSAGE);
 					
 					
-					controller.controllerDecrypt = new ControllerDecrypt ("0000111000001001000101100001000000001101000000100000011000011110", "coucou", controller.model, controller, "cl");
+					controller.controllerDecrypt = new ControllerDecrypt ("N\f", "coucou", controller.model, controller, "authentif");
 					String keyFromDecrypt = controller.controllerDecrypt.decryptage();
 					
 					if (keyFromDecrypt != "") {
@@ -197,6 +197,7 @@ public class ChooseFPanel extends JPanel {
 								"Le fichier est decrypté! La clé trouvée est: " + keyFromDecrypt,
 							    "WOW",
 							    JOptionPane.INFORMATION_MESSAGE);
+						controller.model.cad.close();
 						frame.dispose();
 					}
 					
