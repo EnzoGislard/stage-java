@@ -35,7 +35,7 @@ public class ChooseFPanel extends JPanel {
 	
 	private String nameOfSourceFile;
 	private String pathOfSourceFile;
-	private String pathOfDirectory;
+	private String pathOfDestinationDirectory;
 	
     private JFileChooser sourceFileChooser = new JFileChooser();
     private JFileChooser destinationFileChooser = new JFileChooser();
@@ -157,8 +157,8 @@ public class ChooseFPanel extends JPanel {
 		    {
 				if(destinationFileChooser.showOpenDialog(sourceButton) == JFileChooser.APPROVE_OPTION)
 					if(destinationFileChooser.getSelectedFile() != null) {
-						pathOfDirectory = destinationFileChooser.getSelectedFile().getAbsolutePath()+"\\";
-						pathOfDirectoryLabel.setText(GAP + DESTINATION_JLABEL_TEXT + pathOfDirectory);
+						pathOfDestinationDirectory = destinationFileChooser.getSelectedFile().getAbsolutePath()+"\\";
+						pathOfDirectoryLabel.setText(GAP + DESTINATION_JLABEL_TEXT + pathOfDestinationDirectory);
 						pan.updateUI();
 					}
 		    }
@@ -167,7 +167,7 @@ public class ChooseFPanel extends JPanel {
 		decrypterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(nameOfSourceFile == null && pathOfDirectory == null) {
+				if(nameOfSourceFile == null && pathOfDestinationDirectory == null) {
 					JOptionPane.showMessageDialog(null,
 						    "Please select the source file & the destination folder.",
 						    "Error",
@@ -179,7 +179,7 @@ public class ChooseFPanel extends JPanel {
 						    "Error",
 						    JOptionPane.ERROR_MESSAGE);
 				}
-				else if(pathOfDirectory == null) {
+				else if(pathOfDestinationDirectory == null) {
 					JOptionPane.showMessageDialog(null,
 						    "Please select the destination folder.",
 						    "Error",
@@ -192,11 +192,14 @@ public class ChooseFPanel extends JPanel {
 					content = controller.model.modelGestionFichier.getData(pathOfSourceFile);
 					
 					try {
-						controller.model.modelGestionFichier.setData(content, "text.txt");
+						if(finalNameOfFileJTextField.getText().length() > 1)
+							controller.model.modelGestionFichier.setData(content, pathOfDestinationDirectory + finalNameOfFileJTextField.getText() + ".txt");
+						else
+							controller.model.modelGestionFichier.setData(content, pathOfDestinationDirectory + nameOfSourceFile);
+						
 						System.out.println("File Created!");
 					} catch (IOException e1) {
 						System.out.println("A error failed!");
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					

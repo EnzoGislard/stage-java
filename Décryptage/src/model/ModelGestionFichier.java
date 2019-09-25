@@ -27,7 +27,11 @@ public class ModelGestionFichier {
 
 			while ((line = bufferedReader.readLine()) != null) {
 				System.out.println(line);
-				text = text + line;
+				
+				if(text != null)
+					text = text + line;
+				else
+					text = line;
 			}
 
 			// Always close files.
