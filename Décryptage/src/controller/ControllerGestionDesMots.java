@@ -3,7 +3,7 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.ModelMapDic;
+//import model.ModelMapDic;
 
 import model.ModelCad;
 

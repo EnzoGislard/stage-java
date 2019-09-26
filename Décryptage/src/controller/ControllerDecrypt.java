@@ -49,7 +49,7 @@ public class ControllerDecrypt {
 
 		String[] output;
 
-		decoupeChaineTab = transformerAsciiInt(cryptString);
+		decoupeChaineTab = decoupeChaine(cryptString);
 		
 
 		if (totalKey.length == keyPartInt.length) {
