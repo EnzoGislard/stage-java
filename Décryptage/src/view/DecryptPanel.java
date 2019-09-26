@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -22,7 +24,7 @@ import javax.swing.border.Border;
 import controller.Controller;
 import controller.ControllerDecrypt;
 
-public class ChooseFPanel extends JPanel {
+public class DecryptPanel extends JPanel {
 
 	/**
 	 * 
@@ -62,8 +64,15 @@ public class ChooseFPanel extends JPanel {
 	final int BUTTON_WIDTH = 155;
 	final int DECRYPT_BUTTON_WIDTH = JTEXTFIELD_WIDTH;
 
+	// Labels declaration
+	JLabel nameOfSourceFileLabel;
+	JLabel pathOfDirectory;
+	JTextField finalFileName;
+	JTextField lenghtOfKey;
+	JTextField key;
+
 	/** This constructor create a button into the panel and load an image into it */
-	public ChooseFPanel(Controller controller, Frame frame) {
+	public DecryptPanel(Controller controller, Frame frame) {
 
 		this.controller = controller;
 		this.frame = frame;
@@ -71,13 +80,6 @@ public class ChooseFPanel extends JPanel {
 		// Form
 		Border lineBorder = BorderFactory.createLineBorder(Color.white, 1);
 		Font font = new Font("Courier New", Font.ITALIC + Font.BOLD, 20);
-
-		// Labels declaration
-		JLabel nameOfSourceFile;
-		JLabel pathOfDirectory;
-		JTextField finalFileName;
-		JTextField lenghtOfKey;
-		JTextField key;
 
 		try {
 			this.img = ImageIO.read(getClass().getResourceAsStream("/lol.jpeg"));
@@ -87,20 +89,20 @@ public class ChooseFPanel extends JPanel {
 
 		this.setLayout(null);
 
-		nameOfSourceFile = initLabel(SOURCE_JLABEL_TEXT + "\" FILE \"", lineBorder, COMPONENTS_LEFT_MARGIN, 5);
+		nameOfSourceFileLabel = initLabel(SOURCE_JLABEL_TEXT + "\" FILE \"", lineBorder, COMPONENTS_LEFT_MARGIN, 5);
 		pathOfDirectory = initLabel(DESTINATION_JLABEL_TEXT + "\" PATH \"", lineBorder, COMPONENTS_LEFT_MARGIN, 45);
 
-		finalFileName = initTextField(16, "ENTER NAME OF DEST. FILE", COMPONENTS_LEFT_MARGIN, 85, JTEXTFIELD_WIDTH, 25);
-		lenghtOfKey = initTextField(4, "ENTER LENGHT OF KEY", COMPONENTS_LEFT_MARGIN + 217, 85, JTEXTFIELD_WIDTH, 25);
-		key = initTextField(16, "ENTER THE KEY", COMPONENTS_LEFT_MARGIN + 434, 85, JTEXTFIELD_WIDTH, 25);
+		finalFileName = initTextField(16, "Name of final file", "ENTER NAME OF DEST. FILE", COMPONENTS_LEFT_MARGIN, 85, JTEXTFIELD_WIDTH, 25);
+		lenghtOfKey = initTextField(4, "Lenght of the key", "ENTER LENGHT OF KEY", COMPONENTS_LEFT_MARGIN + 217, 85, JTEXTFIELD_WIDTH, 25);
+		key = initTextField(16, "Key part (optionnal)", "ENTER THE KEY", COMPONENTS_LEFT_MARGIN + 434, 85, JTEXTFIELD_WIDTH, 25);
 
 		sourceButton = initButton("Search source file", BUTTONS_LEFT_MARGIN, 5);
 		destinationButton = initButton("Destination directory", BUTTONS_LEFT_MARGIN, 45);
 		decrypterButton = initButton("Decrypt", COMPONENTS_LEFT_MARGIN, 125, font);
 
-		this.init(nameOfSourceFile, pathOfDirectory, finalFileName, this);
+		this.init(nameOfSourceFileLabel, pathOfDirectory, finalFileName, this);
 
-		this.add(nameOfSourceFile);
+		this.add(nameOfSourceFileLabel);
 		this.add(sourceButton);
 		this.add(pathOfDirectory);
 		this.add(destinationButton);
@@ -109,7 +111,6 @@ public class ChooseFPanel extends JPanel {
 		this.add(lenghtOfKey);
 		this.add(key);
 
-		// this.controller.model.modelGestionFichier.getData(pathOfSourceFile);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -163,6 +164,9 @@ public class ChooseFPanel extends JPanel {
 		});
 
 		decrypterButton.addActionListener(new ActionListener() {
+
+			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (nameOfSourceFile == null && pathOfDestinationDirectory == null) {
@@ -174,35 +178,50 @@ public class ChooseFPanel extends JPanel {
 				} else if (pathOfDestinationDirectory == null) {
 					JOptionPane.showMessageDialog(null, "Please select the destination folder.", "Error",
 							JOptionPane.ERROR_MESSAGE);
+				} else if (isNotInteger(lenghtOfKey.getText())) {
+					JOptionPane.showMessageDialog(null, "\n" + "The lenght of the key must be a number.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				} else {
+					
+					String keyFromJtext;
 
-					controller.controllerDecrypt = new ControllerDecrypt(controller.model.modelGestionFichier.getData(pathOfSourceFile), "coucou", controller.model,
-							controller, "authentif");
+					if (key.getText().equals("")) {
+						keyFromJtext = "";
+					} else {
+						keyFromJtext = key.getText();
+					}
+
+					controller.controllerDecrypt = new ControllerDecrypt(
+							controller.model.modelGestionFichier.getData(pathOfSourceFile), controller.model,
+							controller, keyFromJtext, Integer.parseInt(lenghtOfKey.getText()));
+
 					String[] data = controller.controllerDecrypt.decryptage();
 
-					if (data[0] != "") {		
-						//final String content;					
-						//content = controller.model.modelGestionFichier.getData(pathOfSourceFile);
-						
+					if (data[0] != "" && data[1] != "") {
+
 						try {
 							if (finalNameOfFileJTextField.getText().length() >= 1)
 								controller.model.modelGestionFichier.setData(data[1],
 										pathOfDestinationDirectory + finalNameOfFileJTextField.getText() + ".txt");
-							else 
+							else
 								controller.model.modelGestionFichier.setData(data[1],
 										pathOfDestinationDirectory + nameOfSourceFile);
-
 
 							System.out.println("File Created!");
 						} catch (IOException e1) {
 							System.out.println("A error failed!");
 							e1.printStackTrace();
 						}
-						
-						JOptionPane.showMessageDialog(null,
-								"File decrypted ! The key is : " + data[0], "WOW",
+
+						JOptionPane.showMessageDialog(null, "File decrypted ! The key is : " + data[0], "WOW",
 								JOptionPane.INFORMATION_MESSAGE);
-						controller.model.cad.close();						
+						controller.model.cad.close();
+						frame.dispose();
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Bad news, the decryption did not succeed", "Oh no",
+								JOptionPane.ERROR_MESSAGE);
+						controller.model.cad.close();
 						frame.dispose();
 					}
 				}
@@ -237,15 +256,45 @@ public class ChooseFPanel extends JPanel {
 		return button;
 	}
 
-	private JTextField initTextField(int columns, String toolTipText, int x, int y, int width, int height) {
+	private JTextField initTextField(int columns, String defaultValue, String toolTipText, int x, int y, int width, int height) {
 
-		JTextField inputTextField = new JTextField(columns);
+		JTextField inputTextField = new JTextField(defaultValue, columns);
 
 		inputTextField.setBorder(null);
 		inputTextField.setBounds(x, y, width, height);
 		inputTextField.setToolTipText(toolTipText);
+		
+		inputTextField.addMouseListener(new MouseAdapter() {
+			  @Override
+			  public void mouseClicked(MouseEvent e) {
+				  inputTextField.setText("");
+			  }});
 
 		return inputTextField;
+	}
+
+	public static boolean isNotInteger(String str) {
+		if (str == null) {
+			return true;
+		}
+		int length = str.length();
+		if (length == 0) {
+			return true;
+		}
+		int i = 0;
+		if (str.charAt(0) == '-') {
+			if (length == 1) {
+				return true;
+			}
+			i = 1;
+		}
+		for (; i < length; i++) {
+			char c = str.charAt(i);
+			if (c < '0' || c > '9') {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
