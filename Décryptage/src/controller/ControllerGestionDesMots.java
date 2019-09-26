@@ -12,9 +12,9 @@ public class ControllerGestionDesMots {
 	public boolean testerUnMot(String mot, ModelCad cad) {
 
 		//ModelCad cad = new ModelCad();
-		ModelMapDic dictionnaire = new ModelMapDic();
+		//ModelMapDic dictionnaire = new ModelMapDic();
 
-		ResultSet output = cad.m_getRows(dictionnaire.m_trouverMot(mot));
+		ResultSet output = cad.m_getRows(mot);
 
 		String outputString = "";
 

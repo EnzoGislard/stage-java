@@ -26,9 +26,9 @@ public class ControllerGestionComptePersonne {
 	public Boolean testerCompte (String name, String password, ModelCad cad) {
 		
 		
-		ModelMapPersonne personne = new ModelMapPersonne();
+		//ModelMapPersonne personne = new ModelMapPersonne();
 		
-		ResultSet output = cad.m_getRows(personne.m_selectSpecifique(name, password));
+		ResultSet output = cad.m_getRows(name, password);
 		
 		String outputString = "";
 		
