@@ -28,8 +28,6 @@ public class ControllerGestionDesMots {
 		}
 
 		
-		//cad.close();
-		
 		if (outputString != "") {
 			return true;
 		}

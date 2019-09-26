@@ -6,12 +6,12 @@ import javax.swing.JFrame;
 
 import controller.Controller;
 
-public class Frame extends JFrame {
+public class ViewFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private LoginPanel loadPanel;
-	private DecryptPanel chooseFPanel;
+	private ViewLoginPanel loginPanel;
+	private ViewDecryptPanel decryptPanel;
 	
 	final int FRAME_WIDTH = 600;
 	final int FRAME_HEIGHT = 300;
@@ -20,7 +20,7 @@ public class Frame extends JFrame {
 	 * This constructor set the size of the home window, his color and put a panel
 	 * into it
 	 */
-	public Frame(Controller controller) {
+	public ViewFrame(Controller controller) {
 		
 
 		this.setTitle("Let's decrypt!");
@@ -30,10 +30,10 @@ public class Frame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBackground(Color.BLACK);
 
-		this.loadPanel = new LoginPanel(controller, this);
-		this.chooseFPanel = new DecryptPanel(controller, this);
+		this.loginPanel = new ViewLoginPanel(controller, this);
+		this.decryptPanel = new ViewDecryptPanel(controller, this);
 
-		this.setContentPane(this.loadPanel);
+		this.setContentPane(this.loginPanel);
 		//this.setContentPane(this.chooseFPanel);
 		this.requestFocus();
 
@@ -42,19 +42,19 @@ public class Frame extends JFrame {
 
 
 
-	public LoginPanel getLoadPanel() {
-		return loadPanel;
+	public ViewLoginPanel getLoadPanel() {
+		return loginPanel;
 	}
 	
-	public DecryptPanel getChooseFPanel() {
-		return chooseFPanel;
+	public ViewDecryptPanel getChooseFPanel() {
+		return decryptPanel;
 	}
 
-	public void setLoadPanel(LoginPanel pan) {
-		loadPanel = pan;
+	public void setLoadPanel(ViewLoginPanel pan) {
+		loginPanel = pan;
 	}
-	public void setChooseFPanel(DecryptPanel an) {
-		chooseFPanel = an;
+	public void setChooseFPanel(ViewDecryptPanel an) {
+		decryptPanel = an;
 	}
 
 

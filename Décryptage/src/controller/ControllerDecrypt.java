@@ -9,7 +9,6 @@ public class ControllerDecrypt {
 	Controller controller;
 	
 	String cryptString;
-	String destFile;
 	String keyPart = "";
 	
 	int[] keyPartInt;

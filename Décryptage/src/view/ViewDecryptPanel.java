@@ -24,7 +24,7 @@ import javax.swing.border.Border;
 import controller.Controller;
 import controller.ControllerDecrypt;
 
-public class DecryptPanel extends JPanel {
+public class ViewDecryptPanel extends JPanel {
 
 	/**
 	 * 
@@ -33,8 +33,10 @@ public class DecryptPanel extends JPanel {
 
 	public Controller controller;
 
-	public Frame frame;
+	public ViewFrame frame;
 
+	
+	
 	private String nameOfSourceFile;
 	private String pathOfSourceFile;
 	private String pathOfDestinationDirectory;
@@ -72,7 +74,7 @@ public class DecryptPanel extends JPanel {
 	JTextField key;
 
 	/** This constructor create a button into the panel and load an image into it */
-	public DecryptPanel(Controller controller, Frame frame) {
+	public ViewDecryptPanel(Controller controller, ViewFrame frame) {
 
 		this.controller = controller;
 		this.frame = frame;

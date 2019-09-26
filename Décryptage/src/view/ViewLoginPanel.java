@@ -10,13 +10,13 @@ import javax.swing.border.Border;
 
 import controller.Controller;
 
-public class LoginPanel extends JPanel {
+public class ViewLoginPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private Image img;
 
-	private Frame frame;
+	private ViewFrame frame;
 
 	private JTextField id;
 	private JPasswordField password;
@@ -25,7 +25,7 @@ public class LoginPanel extends JPanel {
 	private Boolean maskPassword = true;
 
 	/** This constructor create a button into the panel and load an image into it */
-	public LoginPanel(Controller controller, Frame frame) {
+	public ViewLoginPanel(Controller controller, ViewFrame frame) {
 
 		this.setFrame(frame);
 
@@ -143,11 +143,11 @@ public class LoginPanel extends JPanel {
 
 	}
 
-	public Frame getFrame() {
+	public ViewFrame getFrame() {
 		return frame;
 	}
 
-	public void setFrame(Frame frame) {
+	public void setFrame(ViewFrame frame) {
 		this.frame = frame;
 	}
 
