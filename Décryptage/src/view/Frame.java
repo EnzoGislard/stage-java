@@ -10,8 +10,8 @@ public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private LoadPanel loadPanel;
-	private ChooseFPanel chooseFPanel;
+	private LoginPanel loadPanel;
+	private DecryptPanel chooseFPanel;
 	
 	final int FRAME_WIDTH = 600;
 	final int FRAME_HEIGHT = 300;
@@ -23,15 +23,15 @@ public class Frame extends JFrame {
 	public Frame(Controller controller) {
 		
 
-		this.setTitle("Décryptage");
+		this.setTitle("Let's decrypt!");
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBackground(Color.BLACK);
 
-		this.loadPanel = new LoadPanel(controller, this);
-		this.chooseFPanel = new ChooseFPanel(controller, this);
+		this.loadPanel = new LoginPanel(controller, this);
+		this.chooseFPanel = new DecryptPanel(controller, this);
 
 		this.setContentPane(this.loadPanel);
 		//this.setContentPane(this.chooseFPanel);
@@ -42,18 +42,18 @@ public class Frame extends JFrame {
 
 
 
-	public LoadPanel getLoadPanel() {
+	public LoginPanel getLoadPanel() {
 		return loadPanel;
 	}
 	
-	public ChooseFPanel getChooseFPanel() {
+	public DecryptPanel getChooseFPanel() {
 		return chooseFPanel;
 	}
 
-	public void setLoadPanel(LoadPanel pan) {
+	public void setLoadPanel(LoginPanel pan) {
 		loadPanel = pan;
 	}
-	public void setChooseFPanel(ChooseFPanel an) {
+	public void setChooseFPanel(DecryptPanel an) {
 		chooseFPanel = an;
 	}
 
