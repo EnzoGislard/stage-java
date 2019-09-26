@@ -34,7 +34,7 @@ public class DecryptPanel extends JPanel {
 	public Controller controller;
 
 	public Frame frame;
-
+	
 	private String nameOfSourceFile;
 	private String pathOfSourceFile;
 	private String pathOfDestinationDirectory;
@@ -100,7 +100,7 @@ public class DecryptPanel extends JPanel {
 		destinationButton = initButton("Destination directory", BUTTONS_LEFT_MARGIN, 45);
 		decrypterButton = initButton("Decrypt", COMPONENTS_LEFT_MARGIN, 125, font);
 
-		this.init(nameOfSourceFileLabel, pathOfDirectory, finalFileName, this);
+		this.init(nameOfSourceFileLabel, pathOfDirectory, finalFileName, this, controller);
 
 		this.add(nameOfSourceFileLabel);
 		this.add(sourceButton);
@@ -120,7 +120,7 @@ public class DecryptPanel extends JPanel {
 	}
 
 	public void init(JLabel nameOfSourceFileLabel, JLabel pathOfDirectoryLabel, JTextField finalNameOfFileJTextField,
-			JPanel pan) {
+			JPanel pan, Controller controller) {
 		// Instantiate an NT security information object about the current user.
 		com.sun.security.auth.module.NTSystem NTSystem = new com.sun.security.auth.module.NTSystem();
 
@@ -165,10 +165,9 @@ public class DecryptPanel extends JPanel {
 
 		decrypterButton.addActionListener(new ActionListener() {
 
-			
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+						
 				if (nameOfSourceFile == null && pathOfDestinationDirectory == null) {
 					JOptionPane.showMessageDialog(null, "Please select the source file & the destination folder.",
 							"Error", JOptionPane.ERROR_MESSAGE);
@@ -182,6 +181,9 @@ public class DecryptPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "\n" + "The lenght of the key must be a number.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
+					
+					DecryptingThread decryptingThread = new DecryptingThread(new Frame(controller));
+					decryptingThread.start();
 					
 					String keyFromJtext;
 
@@ -212,13 +214,19 @@ public class DecryptPanel extends JPanel {
 							System.out.println("A error failed!");
 							e1.printStackTrace();
 						}
-
+						
+						decryptingThread.isTrue = 0;
+						decryptingThread.interrupt();
+						
 						JOptionPane.showMessageDialog(null, "File decrypted ! The key is : " + data[0], "WOW",
 								JOptionPane.INFORMATION_MESSAGE);
 						controller.model.cad.close();
 						frame.dispose();
 					}
 					else {
+						decryptingThread.isTrue = 0;
+						decryptingThread.interrupt();
+						
 						JOptionPane.showMessageDialog(null,"Bad news, the decryption did not succeed", "Oh no",
 								JOptionPane.ERROR_MESSAGE);
 						controller.model.cad.close();

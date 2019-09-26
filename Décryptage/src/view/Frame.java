@@ -20,8 +20,7 @@ public class Frame extends JFrame {
 	 * This constructor set the size of the home window, his color and put a panel
 	 * into it
 	 */
-	public Frame(Controller controller) {
-		
+	public Frame(Controller controller) {		
 
 		this.setTitle("Let's decrypt!");
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
