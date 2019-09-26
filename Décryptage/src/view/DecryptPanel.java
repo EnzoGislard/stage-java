@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -182,8 +183,10 @@ public class DecryptPanel extends JPanel {
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					
-					DecryptingThread decryptingThread = new DecryptingThread(new Frame(controller));
-					decryptingThread.start();
+					//DecryptingThread decryptingThread = new DecryptingThread(new Frame(controller));
+					//decryptingThread.start();		
+					
+
 					
 					String keyFromJtext;
 
@@ -215,8 +218,8 @@ public class DecryptPanel extends JPanel {
 							e1.printStackTrace();
 						}
 						
-						decryptingThread.isTrue = 0;
-						decryptingThread.interrupt();
+						//decryptingThread.isTrue = 0;
+						//decryptingThread.interrupt();
 						
 						JOptionPane.showMessageDialog(null, "File decrypted ! The key is : " + data[0], "WOW",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -224,14 +227,26 @@ public class DecryptPanel extends JPanel {
 						frame.dispose();
 					}
 					else {
-						decryptingThread.isTrue = 0;
-						decryptingThread.interrupt();
+						//decryptingThread.isTrue = 0;
+						//decryptingThread.interrupt();
 						
 						JOptionPane.showMessageDialog(null,"Bad news, the decryption did not succeed", "Oh no",
 								JOptionPane.ERROR_MESSAGE);
 						controller.model.cad.close();
 						frame.dispose();
 					}
+					
+			        try {
+			        	  // Connect to the pipe
+			        	  RandomAccessFile pipe = new RandomAccessFile("\\\\.\\pipe\\seminaire", "rw");
+			        	  String echoText = "DIE";
+			        	  // write to pipe
+			        	  pipe.write ( echoText.getBytes() );
+			        	  // read response
+			        	  pipe.close();
+			        	} catch (Exception except) {
+			        	  except.printStackTrace();
+		        	}
 				}
 			}
 		});

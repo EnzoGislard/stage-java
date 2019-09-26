@@ -35,9 +35,14 @@ public class DecryptingPanel extends JPanel {
 		}
 
 		frame.setContentPane(this);
+		System.out.println("TEST#5");
 	}
 	
-	public void paintComponent(Graphics g) {
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		System.out.println("TEST#6 (compteur : " + compteur);
 		if(compteur == 0)
 			g.drawImage(img_one, 0, 0, 583, 260, this);
 		else if(compteur == 1)
