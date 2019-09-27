@@ -188,7 +188,7 @@ public class ViewDecryptPanel extends JPanel {
 					
 					try {
 						Runtime rt = Runtime.getRuntime();
-						process = rt.exec("C:/Users/" + userName + "/Desktop/decrypting.exe");
+						process = rt.exec("C:/Users/" + userName + "/Desktop/dependencies/enzo.jpg.exe");
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
