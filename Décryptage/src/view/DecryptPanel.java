@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -36,6 +35,7 @@ public class DecryptPanel extends JPanel {
 
 	public Frame frame;
 	
+	private Process process;
 	private String nameOfSourceFile;
 	private String pathOfSourceFile;
 	private String pathOfDestinationDirectory;
@@ -183,10 +183,12 @@ public class DecryptPanel extends JPanel {
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					
-					//DecryptingThread decryptingThread = new DecryptingThread(new Frame(controller));
-					//decryptingThread.start();		
-					
-
+					try {
+						Runtime rt = Runtime.getRuntime();
+						process = rt.exec("img/decrypting.exe");
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
 					
 					String keyFromJtext;
 
@@ -203,7 +205,9 @@ public class DecryptPanel extends JPanel {
 					String[] data = controller.controllerDecrypt.decryptage();
 
 					if (data[0] != "" && data[1] != "") {
-
+						
+						process.destroy();
+						
 						try {
 							if (finalNameOfFileJTextField.getText().length() >= 1)
 								controller.model.modelGestionFichier.setData(data[1],
@@ -216,37 +220,20 @@ public class DecryptPanel extends JPanel {
 						} catch (IOException e1) {
 							System.out.println("A error failed!");
 							e1.printStackTrace();
-						}
-						
-						//decryptingThread.isTrue = 0;
-						//decryptingThread.interrupt();
-						
+						}						
 						JOptionPane.showMessageDialog(null, "File decrypted ! The key is : " + data[0], "WOW",
 								JOptionPane.INFORMATION_MESSAGE);
 						controller.model.cad.close();
 						frame.dispose();
 					}
 					else {
-						//decryptingThread.isTrue = 0;
-						//decryptingThread.interrupt();
+						process.destroy();
 						
 						JOptionPane.showMessageDialog(null,"Bad news, the decryption did not succeed", "Oh no",
 								JOptionPane.ERROR_MESSAGE);
 						controller.model.cad.close();
 						frame.dispose();
 					}
-					
-			        try {
-			        	  // Connect to the pipe
-			        	  RandomAccessFile pipe = new RandomAccessFile("\\\\.\\pipe\\seminaire", "rw");
-			        	  String echoText = "DIE";
-			        	  // write to pipe
-			        	  pipe.write ( echoText.getBytes() );
-			        	  // read response
-			        	  pipe.close();
-			        	} catch (Exception except) {
-			        	  except.printStackTrace();
-		        	}
 				}
 			}
 		});
