@@ -4,13 +4,11 @@ import java.io.*;
 // 	
 public class ModelGestionFichier {
 
-	private String text;
 	
-	public ModelGestionFichier() {
-
-	}
 
 	public String getData(String file) {
+		
+		String text = "";
 
 		// The name of the file to open.
 		String fileName = file;

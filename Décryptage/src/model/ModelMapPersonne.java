@@ -13,7 +13,7 @@ public class ModelMapPersonne {
 	public String m_selectSpecifique  (String identifiant, String mdp) {
 		
 		
-		return "call Identification('" + identifiant +"','" +   mdp + "')";
+		return "call Identification(?,?)";
 		
 		
 	}
