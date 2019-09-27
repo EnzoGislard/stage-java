@@ -11,9 +11,6 @@ public class ControllerGestionDesMots {
 
 	public boolean testerUnMot(String mot, ModelCad cad) {
 
-		//ModelCad cad = new ModelCad();
-		//ModelMapDic dictionnaire = new ModelMapDic();
-
 		ResultSet output = cad.m_getRows(mot);
 
 		String outputString = "";
@@ -23,10 +20,8 @@ public class ControllerGestionDesMots {
 				outputString = output.getString("donnee");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		
 		if (outputString != "") {
 			return true;

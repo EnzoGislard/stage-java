@@ -8,61 +8,45 @@ import model.ModelMapPersonne;
 
 public class ControllerGestionComptePersonne {
 	
+public ResultSet m_listerLesCompte (ModelCad cad) {
 	
+	ModelMapPersonne personne = new ModelMapPersonne();
 	
-	public ResultSet m_listerLesCompte (ModelCad cad) {
-		
-		
-		ModelMapPersonne personne = new ModelMapPersonne();
-		
-		ResultSet output = cad.m_getRows(personne.m_select());
-		
-		
-		return output;
-	}
+	ResultSet output = cad.m_getRows(personne.m_select());
+	
+	return output;
+}
 
+public Boolean testerCompte (String name, String password, ModelCad cad) {
 	
+	ResultSet output = cad.m_getRows(name, password);
 	
-	public Boolean testerCompte (String name, String password, ModelCad cad) {
-		
-		
-		//ModelMapPersonne personne = new ModelMapPersonne();
-		
-		ResultSet output = cad.m_getRows(name, password);
-		
-		String outputString = "";
-		
-		try {
-			while (output.next()) {
-				outputString = output.getString("Utilisateurs");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	String outputString = "";
+	
+	try {
+		while (output.next()) {
+			outputString = output.getString("Utilisateurs");
 		}
-		
-		
-		if (outputString != "") {
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	if (outputString != "") {
 			return true;
 		}
 		else {
 			return false;
 		}
-	}
+	}	
 	
-	
-	public void m_CreeUnCompte (String name, String firstName, ModelCad cad) {
+public void m_CreeUnCompte (String name, String firstName, ModelCad cad) {
 		
 		ModelMapPersonne personne = new ModelMapPersonne();
 		
 		personne.setName(name);
 		personne.setFirstName(firstName);
-		
 	
 		cad.m_actionRows(personne.m_insert());
-		
-	}
-	
-	
-	
+	}	
 }

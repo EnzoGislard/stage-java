@@ -2,10 +2,7 @@ package model;
 
 public class ModelDecrypt {
 
-
-
 	public String xor(int[] tabInt, int[] key) {
-		
 
 		char[] outputChar = new char[tabInt.length];
 		String output;
@@ -24,12 +21,10 @@ public class ModelDecrypt {
 
 			outputChar[i] = (char) xorResult;
 			
-
 			keyCounter++;
 		}
 		
 		output = new String(outputChar);
-		
 		
 		return output;
 	}

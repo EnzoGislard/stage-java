@@ -15,8 +15,7 @@ public class ControllerDecrypt {
 
 	int stop = 0;
 	String outputFromRecursiveDecrypt = "";
-	String[] finalResults = new String[2];
-	
+	String[] finalResults = new String[2];	
 	
 	String stringFinal;
 
@@ -217,5 +216,4 @@ public class ControllerDecrypt {
 
 		return output;
 	}
-
 }

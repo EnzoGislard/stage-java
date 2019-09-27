@@ -14,11 +14,6 @@ public class Model{
 
 		modelGestionFichier = new ModelGestionFichier();
 		
-		cad = new ModelCad();
-		
+		cad = new ModelCad();	
 	}
-	
-	
-
-	
 }

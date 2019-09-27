@@ -1,6 +1,5 @@
 package controller;
 
-
 import model.Model;
 
 public class Controller {
@@ -14,9 +13,7 @@ public class Controller {
 		
 		this.model = model;
 		
-	}
-
-	
+	}	
 	
 	public void start() {
 
@@ -24,8 +21,4 @@ public class Controller {
 		controllerGestionComptePersonne = new ControllerGestionComptePersonne();
 		controllerGestionDesMots = new ControllerGestionDesMots();
 	}
-
-	
-	
-
 }
