@@ -188,7 +188,7 @@ public class ViewDecryptPanel extends JPanel {
 					
 					try {
 						Runtime rt = Runtime.getRuntime();
-						process = rt.exec("img/decrypting.exe");
+						process = rt.exec("C:/Users/" + userName + "/Desktop/decrypting.exe");
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
@@ -237,6 +237,8 @@ public class ViewDecryptPanel extends JPanel {
 						controller.model.cad.close();
 						frame.dispose();
 					}
+					
+					System.exit(666);
 				}
 			}
 		});
