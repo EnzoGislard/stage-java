@@ -21,7 +21,6 @@ public class ViewFrame extends JFrame {
 	 * into it
 	 */
 	public ViewFrame(Controller controller) {
-		
 
 		this.setTitle("Let's decrypt!");
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -40,8 +39,6 @@ public class ViewFrame extends JFrame {
 		this.setVisible(true);
 	}
 
-
-
 	public ViewLoginPanel getLoadPanel() {
 		return loginPanel;
 	}
@@ -56,6 +53,4 @@ public class ViewFrame extends JFrame {
 	public void setChooseFPanel(ViewDecryptPanel an) {
 		decryptPanel = an;
 	}
-
-
 }

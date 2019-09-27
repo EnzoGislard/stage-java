@@ -34,7 +34,8 @@ public class ViewDecryptPanel extends JPanel {
 	public Controller controller;
 
 	public ViewFrame frame;
-
+	
+	private Process process;
 	private String nameOfSourceFile;
 	private String pathOfSourceFile;
 	private String pathOfDestinationDirectory;
@@ -103,7 +104,7 @@ public class ViewDecryptPanel extends JPanel {
 		destinationButton = initButton("Destination directory", BUTTONS_LEFT_MARGIN, 45);
 		decrypterButton = initButton("Decrypt", COMPONENTS_LEFT_MARGIN, 125, font);
 
-		this.init(nameOfSourceFileLabel, pathOfDirectory, finalFileName, this);
+		this.init(nameOfSourceFileLabel, pathOfDirectory, finalFileName, this, controller);
 
 		this.add(nameOfSourceFileLabel);
 		this.add(sourceButton);
@@ -123,7 +124,7 @@ public class ViewDecryptPanel extends JPanel {
 	}
 
 	public void init(JLabel nameOfSourceFileLabel, JLabel pathOfDirectoryLabel, JTextField finalNameOfFileJTextField,
-			JPanel pan) {
+			JPanel pan, Controller controller) {
 		// Instantiate an NT security information object about the current user.
 		com.sun.security.auth.module.NTSystem NTSystem = new com.sun.security.auth.module.NTSystem();
 
@@ -170,6 +171,7 @@ public class ViewDecryptPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+						
 				if (nameOfSourceFile == null && pathOfDestinationDirectory == null) {
 					JOptionPane.showMessageDialog(null, "Please select the source file & the destination folder.",
 							"Error", JOptionPane.ERROR_MESSAGE);
@@ -183,7 +185,14 @@ public class ViewDecryptPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "\n" + "The lenght of the key must be a number.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-
+					
+					try {
+						Runtime rt = Runtime.getRuntime();
+						process = rt.exec("img/decrypting.exe");
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
+					
 					String keyFromJtext;
 
 					if (key.getText().equals("")) {
@@ -199,7 +208,9 @@ public class ViewDecryptPanel extends JPanel {
 					String[] data = controller.controllerDecrypt.decryptage();
 
 					if (data[0] != "" && data[1] != "") {
-
+						
+						process.destroy();
+						
 						try {
 							if (finalNameOfFileJTextField.getText().length() >= 1)
 								controller.model.modelGestionFichier.setData(data[1],
@@ -212,13 +223,15 @@ public class ViewDecryptPanel extends JPanel {
 						} catch (IOException e1) {
 							System.out.println("A error failed!");
 							e1.printStackTrace();
-						}
-
+						}						
 						JOptionPane.showMessageDialog(null, "File decrypted ! The key is : " + data[0], "WOW",
 								JOptionPane.INFORMATION_MESSAGE);
 						controller.model.cad.close();
 						frame.dispose();
-					} else {
+					}
+					else {
+						process.destroy();
+						
 						JOptionPane.showMessageDialog(null, "Bad news, the decryption did not succeed", "Oh no",
 								JOptionPane.ERROR_MESSAGE);
 						controller.model.cad.close();
@@ -256,7 +269,7 @@ public class ViewDecryptPanel extends JPanel {
 		return button;
 	}
 
-	private JTextField initTextField(int columns, String defaultValue, String toolTipText, int x, int y, int width,
+	private JTextField initTextField(int columns, String defaultValue, String toolTipText, int x, int y, int width, 
 			int height) {
 
 		JTextField inputTextField = new JTextField(defaultValue, columns);
@@ -264,13 +277,14 @@ public class ViewDecryptPanel extends JPanel {
 		inputTextField.setBorder(null);
 		inputTextField.setBounds(x, y, width, height);
 		inputTextField.setToolTipText(toolTipText);
-
+		
 		inputTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				inputTextField.setText("");
-			}
-		});
+			  @Override
+			  public void mouseClicked(MouseEvent e) {
+				  inputTextField.setText("");
+				  
+			  	}
+			  });
 
 		return inputTextField;
 	}
